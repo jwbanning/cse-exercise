@@ -4,7 +4,9 @@
 
 **Role:** Customer Success Engineer at Postman
 **Timeline:** 2-3 hours (use AI assistants)
-**Presentation:** 30 minutes (20-min presentation + 10-min Q&A)
+**Final Session:** 45 minutes (30-min presentation + 15-min live discussion)
+
+**What this role actually looks like:** CSEs spend roughly 75% of their time working in customer environments -- their cloud infrastructure, Git repos, CI/CD pipelines. Postman itself is about 25% of the day. You're an engineer who works alongside customer engineers, not someone who demos features.
 
 **Why This Exercise Matters:** CSEs solve infrastructure problems for enterprise customers -- sometimes building from scratch, sometimes leveraging existing tooling. This exercise tests whether you can take production-grade automation, apply it to a realistic customer environment, adapt it when things don't fit, and present a credible scaling and handoff plan.
 
@@ -24,12 +26,12 @@ The company has hundreds of APIs across the organization. Your engagement is sco
 - Most teams use GitHub Actions for CI/CD, but one group runs GitLab CI and has no plans to switch
 - Some services have OpenAPI specs in their repos. Many don't. Some have outdated specs that have drifted from the actual implementation.
 
-**Baseline Problem:** A senior engineer recently spent close to an hour integrating with an internal refund API -- jumping across multiple systems, hitting dead ends, and relying on a teammate's personal workspace. A QA engineer had a similar experience trying to write contract tests against lending endpoints: no spec, no collection, no environment config. These problems are universal across the org: APIs exist in production but aren't discoverable, documented, or testable through Postman.
+**Baseline Problem:** Engineers routinely lose significant time just trying to discover and successfully call internal APIs -- jumping across systems, hitting dead ends, and piecing together tribal knowledge. Writing tests against internal endpoints is equally painful: there's often no spec to reference, no collection to start from, and no environment config to plug in. The team knows these problems are widespread but doesn't know where to start fixing them. APIs exist in production but aren't discoverable, documented, or testable through Postman.
 
 **The Platform Team (your counterpart):** A 4-person platform/ops team spans all the product lines. They manage the AWS accounts, CI/CD templates, and shared infrastructure. They don't write application code but they own the deployment pipelines and would maintain any cross-cutting automation after CSE leaves. They care about: working within their existing CI/CD patterns (they won't adopt a new tool just for Postman), being able to onboard new services themselves without calling you, and keeping maintenance low. They're stretched thin.
 
 **Key contacts:**
-- VP of Platform Engineering (your primary stakeholder -- cares about the value)
+- VP of Platform Engineering (your primary stakeholder -- cares about the value and needs to present progress to the CIO in 60 days)
 - A senior DevOps engineer on the platform team (your hands-on partner)
 - An engineering manager on the payments side who's willing to pilot first
 - A QA lead on the lending side who previously used Postman heavily at a prior company
@@ -58,9 +60,9 @@ You're provided with:
    - You may adapt the included starter asset or wire the immutable upstream actions directly
    - The result should be: workspace created, spec uploaded to Spec Hub, collections generated (baseline, smoke, contract), environments configured, collections exported to your repo
 
-2. **Onboard a second spec** that has meaningfully different characteristics from the first
-   - Adapt the workflow to handle a second service
-   - Document what changed, what stayed the same, and why you kept or changed the architecture
+2. **Adaptation Analysis for a second spec** that has meaningfully different characteristics from the first
+   - Produce a documented analysis of what would change in your workflow to handle the second service
+   - Explain what stays the same, what changes, and what you would need from the customer's platform team to make it work
 
 3. **README with:**
    - How you built the workflow and what decisions you made
@@ -77,34 +79,36 @@ You're provided with:
 
 The working implementation proves you can execute. The presentation proves you can consult.
 
-**20 minutes to present, 10 minutes Q&A. Required sections:**
+**30 minutes to present, 15 minutes live discussion. The session is 45 minutes total.**
 
-1. **Problem Baseline:** The current discovery/integration friction and its cost. Quantify it.
+The build is table stakes, but the real signal is in how you explain what you're proposing and how you handle questions you didn't prepare for. Expect the discussion portion to include scenario-based questions about operational realities -- token expiry, rerun behavior, scope management, customer coordination -- not just clarifications on your slides.
 
-2. **Solution Demo:** Run the workflow live. Show at least 2 services onboarded -- workspace structure, collections, spec in Spec Hub, environments, monitors.
+Assume your audience is made up of engineers and platform practitioners who work in these systems every day. Do not spend time narrating every low-level implementation detail. Focus on what the automation enables, what changes operationally for the team, what still requires human coordination, and why the pattern matters.
 
-3. **Adaptation Plan:** This is the consulting piece. The customer's environment isn't uniform -- different services have different infrastructure, CI/CD, repo structures, and levels of spec maturity. Explain:
-   - What works as-is with the GitHub Actions tooling
-   - What needs to change for services with different characteristics (e.g., a team that runs GitLab CI instead of GitHub Actions, services without existing specs, different repo layouts, different deployment patterns)
-   - What the customer's ops team needs to provide (gateway access, CI/CD permissions, environment URLs, repo access, and other platform-owned prerequisites)
-   - How would onboarding change if specs live alongside service code instead of in a central folder?
-   - What a working session with their team would look like
+**Presentation (30 min). Required sections:**
 
-4. **Scaling Roadmap:** How do you go from 2 onboarded services to the pilot team's ~50 services? What's your timeline and sequencing? The VP wants to see momentum -- she's presenting to the CIO in 60 days and needs to show this is working at scale, not just in a pilot. What are the dependencies? What blocks you? How does this eventually extend org-wide?
+1. **Problem and Value:** The current discovery/integration friction, the manual steps eliminated, and the estimated engineering time saved per execution. Focus on the operational value unlocked by the automation rather than deep financial ROI math. State your assumptions clearly.
 
-5. **ROI Projection:** Annual savings with clearly stated assumptions and math. Frame it for an executive audience in the context of renewal and expansion.
+2. **Solution Demo:** Run the workflow live for your onboarded service. Show the workspace structure, collections, spec in Spec Hub, environments, and monitors.
 
-6. **Handoff Plan:** What artifacts do you leave behind? What does the platform team need to maintain this independently? What would require ongoing CSE support vs what's self-serve after Day 90?
+3. **Adaptation and Scaling:** This is the consulting piece. The customer's environment isn't uniform. Explain:
+   - What in the onboarding workflow stays the same across services and what changes in the inputs, environment configuration, and platform-team coordination required for a service with different infrastructure or CI/CD
+   - How you scale from this pilot to the team's ~50 services in 60 days
+   - Define your repeatable action template—which parts are fully repeatable per service vs what still depends on platform-team coordination, repo hygiene, or CI/CD access
+
+4. **Handoff and Ownership:** What artifacts do you leave behind? What does the platform team need to maintain this independently? What would require ongoing CSE support vs what's self-serve after Day 90? What would a working session with their team look like?
+
+**Discussion (15 min).** We'll ask scenario-based questions that test your operational awareness and consulting instinct. These may cover topics like what happens on Day 2 when the happy-path demo is over, how you handle requests that push beyond the engagement scope, or how you'd debug a workflow that's silently degrading. Come prepared to think on your feet.
 
 ## Evaluation Criteria
 
-Your submission is evaluated across four areas. Each area carries equal importance.
+Your submission is evaluated across four areas. Each area carries equal importance. The build is the entry ticket. The signal comes from how you explain, adapt, and respond to questions.
 
-**Infrastructure Consulting** -- Can you diagnose a customer environment with mixed infrastructure, adapt tooling to different stacks, and clearly articulate what changes per service vs what's universal? Can you scope a realistic working session and identify what the customer needs to provide? Do you understand what happens on Day 2 -- what breaks when tokens expire, when workflows are rerun, when specs drift from implementation?
+**Infrastructure Consulting** -- Can you diagnose a customer environment with mixed infrastructure, adapt tooling to different stacks, and clearly articulate what changes per service vs what's universal? Can you scope a realistic working session and identify what the customer needs to provide? Do you understand what happens on Day 2 -- what breaks when tokens expire, when workflows are rerun, when specs drift from implementation? Can you reason about operational failure modes (silent degradation, environment duplication, auth expiry) without being prompted?
 
-**Value Articulation** -- Can you connect what you built to the customer's business? Do you quantify impact with realistic assumptions and frame it for an executive audience? Does your ROI math account for the scale of ~50 services expanding org-wide?
+**Value Articulation** -- Can you make the value concrete for an engineering and platform audience? Generic statements like "things are faster" or "improves consistency" don't land. The strongest candidates connect their automation to specific operational pain from the customer scenario -- the kind of pain that costs real engineering hours, causes real incidents, or blocks real work. Lightweight assumptions and simple ROI framing can help, but operational value matters more than polished business math.
 
-**Pattern Thinking & Scaling** -- Does your implementation generalize? How do you handle the parts of the environment where GitHub Actions don't apply? Is your 90-day roadmap credible with real dependencies, not just "repeat for each service"?
+**Pattern Thinking & Scaling** -- Does your approach prove that the onboarding pattern is a repeatable system, not a series of custom projects? The strongest signal is when your second-spec analysis demonstrates how little actually changes. Beyond that: how do you handle the parts of the environment where GitHub Actions don't apply? Is your 90-day roadmap built on real dependency chains and parallelization opportunities, or is it just "repeat for each service"?
 
 **Co-Execution & Handoff** -- How does the customer team participate and take ownership? What does enablement look like for their platform/ops team? Is independent operation by Day 90 credible based on your plan?
 
@@ -152,7 +156,7 @@ These are production actions maintained by the CSE team. You may call them direc
 **Format:**
 
 - Presentation deck (PDF or PPTX)
-- One or more GitHub repos containing your working implementation for two services, with links to anything needed for review:
+- One or more GitHub repos containing your working implementation for one service and adaptation analysis for a second service, with links to anything needed for review:
   - The service OpenAPI specs
   - The workflow or workflows you actually ran
   - Generated Postman collections (JSON exports)
@@ -162,34 +166,35 @@ These are production actions maintained by the CSE team. You may call them direc
 **What we expect to see in the repo and demo:**
 
 - A real end-to-end run against a real Postman workspace, not a theoretical design
-- At least 2 specs onboarded (representing services with different characteristics)
+- The pattern proven on 1 service and evaluated on a second service with meaningfully different characteristics, showing your approach transfers via documented analysis
 - Clear explanation of how the actions chain together and why you structured the workflow the way you did
 - Clear explanation of why you used, fixed, or bypassed the starter material
 - Honest documentation of issues encountered and how you resolved them
 
 **Clarifications:**
 
-- Focus implementation on 2 of the 3 provided specs. The broader environment's variance (GitLab CI, services without specs, etc.) is a design exercise covered in your presentation.
+- Focus your working implementation on 1 of the 3 provided specs. Focus your adaptation analysis on a 2nd provided spec. The broader environment's variance (GitLab CI, services without specs, etc.) is a design exercise covered in your presentation.
 - You don't need an AWS account. The provided specs represent the customer's APIs. You're onboarding them into Postman, not deploying them.
 - You may start from the included starter asset or build directly from the action documentation. Either way, be prepared to explain why you chose that path and what you changed.
 - Use whatever AI tools you want. Document what AI generated vs what you wrote or validated yourself.
 
 **Time Guidance:**
 
-- Phase 1 (review specs, build workflow, onboard 2 specs): ~1.5 hours -- take time to understand what you're onboarding before automating it
-- Phase 2 (presentation + adaptation plan): ~1 hour (focus on consulting value)
+- Phase 1 (review specs, build workflow, onboard first spec): ~30-45 minutes with AI assistance -- the starter material may not work as-is. Debugging is part of the exercise. Take time to understand what you're onboarding before automating it, and what you're debugging before fixing it. If you're spending more than an hour here, step back and reassess your approach.
+- Phase 2 (adaptation analysis + presentation + scenario prep): ~1.5 hours -- this is where the real evaluation weight lives. Invest here. Your ability to explain what you built, why it works, what breaks, and how you'd adapt it matters more than the build itself.
 - Practice/refinement: ~0.5 hours
 
 **AI Assistance Policy:** Strongly encouraged. We want your strategy, consulting instinct, and communication -- not manual YAML debugging. Use Claude Code, Cursor, Gemini CLI, or ChatGPT to accelerate.
 
 ## What We're Looking For
 
-We want to see that you can take existing tooling, make it work in a realistic scenario, and present a credible plan for a customer engagement. Specifically:
+We want to see that you can take existing tooling, make it work in a realistic scenario, and present a credible plan for a customer engagement. The build should work; the presentation and discussion are where we learn how you think. Specifically:
 
-- The workflow runs end-to-end against a real workspace for at least 2 specs
+- The workflow runs end-to-end against a real workspace for 1 service, and your adaptation analysis proves the pattern transfers to a second service with meaningfully different characteristics
 - You can explain how you built the workflow, what decisions you made, and what you ran into
 - You clearly articulate what's universal in the onboarding pattern vs what changes per service
-- Your scaling plan has real dependencies and timelines, not just "repeat for each service"
-- Your ROI math has stated assumptions and connects to renewal/expansion
+- Your scaling plan distinguishes between what becomes repeatable per service and what still depends on customer/platform coordination
+- You clearly communicate the practical value of the pattern to an engineering/platform audience, with lightweight assumptions where helpful, and explain why it matters beyond a one-time demo
 - Your handoff plan addresses the platform/ops team specifically -- what do they need to maintain this without CSE involvement?
+- You can think on your feet when asked about failure modes, operational edge cases, and scope management -- not just recite your slides
 - You're honest about what AI generated vs what you wrote, validated, or changed yourself
