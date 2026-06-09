@@ -1,0 +1,490 @@
+type: http
+name: Get refund status
+url: '{{baseUrl}}/refunds/:refundId/status'
+method: GET
+headers:
+  - key: Accept
+    value: application/json
+pathVariables:
+  - key: refundId
+    value: rfnd_abc123def456
+    description: Unique identifier for the refund
+scripts:
+  - type: afterResponse
+    code:
+      - var contract = JSON.parse("{\"method\":\"GET\",\"path\":\"/refunds/{refundId}/status\",\"responses\":{\"200\":{\"content\":{\"application/json\":{\"schema\":{\"type\":\"object\",\"properties\":{\"refundId\":{\"type\":\"string\",\"pattern\":\"^rfnd_[a-zA-Z0-9]+$\"},\"status\":{\"type\":\"string\",\"enum\":[\"pending\",\"processing\",\"completed\",\"failed\",\"cancelled\"]},\"updatedAt\":{\"type\":\"string\"},\"completedAt\":{\"type\":\"string\"},\"failedAt\":{\"type\":\"string\"},\"estimatedCompletionTime\":{\"type\":\"string\"},\"failureReason\":{\"type\":\"string\"}},\"$schema\":\"http://json-schema.org/draft-07/schema#\"}}},\"hasBody\":true,\"headers\":[]},\"401\":{\"content\":{\"application/json\":{\"schema\":{\"type\":\"object\",\"required\":[\"error\",\"message\",\"code\",\"timestamp\"],\"properties\":{\"error\":{\"type\":\"string\"},\"message\":{\"type\":\"string\"},\"details\":{\"type\":\"object\",\"additionalProperties\":true},\"code\":{\"type\":\"string\",\"enum\":[\"VALIDATION_ERROR\",\"BUSINESS_RULE_VIOLATION\",\"AUTHENTICATION_ERROR\",\"AUTHORIZATION_ERROR\",\"RESOURCE_NOT_FOUND\",\"CONFLICT\",\"RATE_LIMIT_ERROR\",\"SERVER_ERROR\",\"SERVICE_UNAVAILABLE\"]},\"timestamp\":{\"type\":\"string\"}},\"$schema\":\"http://json-schema.org/draft-07/schema#\"}}},\"hasBody\":true,\"headers\":[]},\"404\":{\"content\":{\"application/json\":{\"schema\":{\"type\":\"object\",\"required\":[\"error\",\"message\",\"code\",\"timestamp\"],\"properties\":{\"error\":{\"type\":\"string\"},\"message\":{\"type\":\"string\"},\"details\":{\"type\":\"object\",\"additionalProperties\":true},\"code\":{\"type\":\"string\",\"enum\":[\"VALIDATION_ERROR\",\"BUSINESS_RULE_VIOLATION\",\"AUTHENTICATION_ERROR\",\"AUTHORIZATION_ERROR\",\"RESOURCE_NOT_FOUND\",\"CONFLICT\",\"RATE_LIMIT_ERROR\",\"SERVER_ERROR\",\"SERVICE_UNAVAILABLE\"]},\"timestamp\":{\"type\":\"string\"}},\"$schema\":\"http://json-schema.org/draft-07/schema#\"}}},\"hasBody\":true,\"headers\":[]},\"500\":{\"content\":{\"application/json\":{\"schema\":{\"type\":\"object\",\"required\":[\"error\",\"message\",\"code\",\"timestamp\"],\"properties\":{\"error\":{\"type\":\"string\"},\"message\":{\"type\":\"string\"},\"details\":{\"type\":\"object\",\"additionalProperties\":true},\"code\":{\"type\":\"string\",\"enum\":[\"VALIDATION_ERROR\",\"BUSINESS_RULE_VIOLATION\",\"AUTHENTICATION_ERROR\",\"AUTHORIZATION_ERROR\",\"RESOURCE_NOT_FOUND\",\"CONFLICT\",\"RATE_LIMIT_ERROR\",\"SERVER_ERROR\",\"SERVICE_UNAVAILABLE\"]},\"timestamp\":{\"type\":\"string\"}},\"$schema\":\"http://json-schema.org/draft-07/schema#\"}}},\"hasBody\":true,\"headers\":[]}}}");
+      - var validators = {};
+      - validators["200"] = validators["200"] || {};
+      - |-
+        validators["200"]["application/json"] = (function() {
+        'use strict'
+        const hasOwn = Function.prototype.call.bind(Object.prototype.hasOwnProperty);
+        const pattern0 = new RegExp("^rfnd_[a-zA-Z0-9]+$", "u");
+        const ref0 = function validate(data) {
+          validate.errors = null
+          let errorCount = 0
+          if (!(typeof data === "object" && data && !Array.isArray(data))) {
+            if (validate.errors === null) validate.errors = []
+            validate.errors.push({ keywordLocation: "#/type", instanceLocation: "#" })
+            errorCount++
+          }
+          else {
+            if (data.refundId !== undefined && hasOwn(data, "refundId")) {
+              if (!(typeof data.refundId === "string")) {
+                if (validate.errors === null) validate.errors = []
+                validate.errors.push({ keywordLocation: "#/properties/refundId/type", instanceLocation: "#/refundId" })
+                errorCount++
+              }
+              else {
+                const prev0 = errorCount
+                if (errorCount === prev0) {
+                  if (!pattern0.test(data.refundId)) {
+                    if (validate.errors === null) validate.errors = []
+                    validate.errors.push({ keywordLocation: "#/properties/refundId/pattern", instanceLocation: "#/refundId" })
+                    errorCount++
+                  }
+                }
+              }
+            }
+            if (data.status !== undefined && hasOwn(data, "status")) {
+              if (!(typeof data.status === "string")) {
+                if (validate.errors === null) validate.errors = []
+                validate.errors.push({ keywordLocation: "#/properties/status/type", instanceLocation: "#/status" })
+                errorCount++
+              }
+              else {
+                if (!(data.status === "pending" || data.status === "processing" || data.status === "completed" || data.status === "failed" || data.status === "cancelled")) {
+                  if (validate.errors === null) validate.errors = []
+                  validate.errors.push({ keywordLocation: "#/properties/status/enum", instanceLocation: "#/status" })
+                  errorCount++
+                }
+              }
+            }
+            if (data.updatedAt !== undefined && hasOwn(data, "updatedAt")) {
+              if (!(typeof data.updatedAt === "string")) {
+                if (validate.errors === null) validate.errors = []
+                validate.errors.push({ keywordLocation: "#/properties/updatedAt/type", instanceLocation: "#/updatedAt" })
+                errorCount++
+              }
+            }
+            if (data.completedAt !== undefined && hasOwn(data, "completedAt")) {
+              if (!(typeof data.completedAt === "string")) {
+                if (validate.errors === null) validate.errors = []
+                validate.errors.push({ keywordLocation: "#/properties/completedAt/type", instanceLocation: "#/completedAt" })
+                errorCount++
+              }
+            }
+            if (data.failedAt !== undefined && hasOwn(data, "failedAt")) {
+              if (!(typeof data.failedAt === "string")) {
+                if (validate.errors === null) validate.errors = []
+                validate.errors.push({ keywordLocation: "#/properties/failedAt/type", instanceLocation: "#/failedAt" })
+                errorCount++
+              }
+            }
+            if (data.estimatedCompletionTime !== undefined && hasOwn(data, "estimatedCompletionTime")) {
+              if (!(typeof data.estimatedCompletionTime === "string")) {
+                if (validate.errors === null) validate.errors = []
+                validate.errors.push({ keywordLocation: "#/properties/estimatedCompletionTime/type", instanceLocation: "#/estimatedCompletionTime" })
+                errorCount++
+              }
+            }
+            if (data.failureReason !== undefined && hasOwn(data, "failureReason")) {
+              if (!(typeof data.failureReason === "string")) {
+                if (validate.errors === null) validate.errors = []
+                validate.errors.push({ keywordLocation: "#/properties/failureReason/type", instanceLocation: "#/failureReason" })
+                errorCount++
+              }
+            }
+          }
+          return errorCount === 0
+        };
+        return ref0})();;
+      - validators["401"] = validators["401"] || {};
+      - |-
+        validators["401"]["application/json"] = (function() {
+        'use strict'
+        const hasOwn = Function.prototype.call.bind(Object.prototype.hasOwnProperty);
+        const ref0 = function validate(data) {
+          validate.errors = null
+          let errorCount = 0
+          if (!(typeof data === "object" && data && !Array.isArray(data))) {
+            if (validate.errors === null) validate.errors = []
+            validate.errors.push({ keywordLocation: "#/type", instanceLocation: "#" })
+            errorCount++
+          }
+          else {
+            if (!(data.error !== undefined && hasOwn(data, "error"))) {
+              if (validate.errors === null) validate.errors = []
+              validate.errors.push({ keywordLocation: "#/required", instanceLocation: "#/error" })
+              errorCount++
+            }
+            if (!(data.message !== undefined && hasOwn(data, "message"))) {
+              if (validate.errors === null) validate.errors = []
+              validate.errors.push({ keywordLocation: "#/required", instanceLocation: "#/message" })
+              errorCount++
+            }
+            if (!(data.code !== undefined && hasOwn(data, "code"))) {
+              if (validate.errors === null) validate.errors = []
+              validate.errors.push({ keywordLocation: "#/required", instanceLocation: "#/code" })
+              errorCount++
+            }
+            if (!(data.timestamp !== undefined && hasOwn(data, "timestamp"))) {
+              if (validate.errors === null) validate.errors = []
+              validate.errors.push({ keywordLocation: "#/required", instanceLocation: "#/timestamp" })
+              errorCount++
+            }
+            if (data.error !== undefined && hasOwn(data, "error")) {
+              if (!(typeof data.error === "string")) {
+                if (validate.errors === null) validate.errors = []
+                validate.errors.push({ keywordLocation: "#/properties/error/type", instanceLocation: "#/error" })
+                errorCount++
+              }
+            }
+            if (data.message !== undefined && hasOwn(data, "message")) {
+              if (!(typeof data.message === "string")) {
+                if (validate.errors === null) validate.errors = []
+                validate.errors.push({ keywordLocation: "#/properties/message/type", instanceLocation: "#/message" })
+                errorCount++
+              }
+            }
+            if (data.details !== undefined && hasOwn(data, "details")) {
+              if (!(typeof data.details === "object" && data.details && !Array.isArray(data.details))) {
+                if (validate.errors === null) validate.errors = []
+                validate.errors.push({ keywordLocation: "#/properties/details/type", instanceLocation: "#/details" })
+                errorCount++
+              }
+            }
+            if (data.code !== undefined && hasOwn(data, "code")) {
+              if (!(typeof data.code === "string")) {
+                if (validate.errors === null) validate.errors = []
+                validate.errors.push({ keywordLocation: "#/properties/code/type", instanceLocation: "#/code" })
+                errorCount++
+              }
+              else {
+                if (!(data.code === "VALIDATION_ERROR" || data.code === "BUSINESS_RULE_VIOLATION" || data.code === "AUTHENTICATION_ERROR" || data.code === "AUTHORIZATION_ERROR" || data.code === "RESOURCE_NOT_FOUND" || data.code === "CONFLICT" || data.code === "RATE_LIMIT_ERROR" || data.code === "SERVER_ERROR" || data.code === "SERVICE_UNAVAILABLE")) {
+                  if (validate.errors === null) validate.errors = []
+                  validate.errors.push({ keywordLocation: "#/properties/code/enum", instanceLocation: "#/code" })
+                  errorCount++
+                }
+              }
+            }
+            if (data.timestamp !== undefined && hasOwn(data, "timestamp")) {
+              if (!(typeof data.timestamp === "string")) {
+                if (validate.errors === null) validate.errors = []
+                validate.errors.push({ keywordLocation: "#/properties/timestamp/type", instanceLocation: "#/timestamp" })
+                errorCount++
+              }
+            }
+          }
+          return errorCount === 0
+        };
+        return ref0})();;
+      - validators["404"] = validators["404"] || {};
+      - |-
+        validators["404"]["application/json"] = (function() {
+        'use strict'
+        const hasOwn = Function.prototype.call.bind(Object.prototype.hasOwnProperty);
+        const ref0 = function validate(data) {
+          validate.errors = null
+          let errorCount = 0
+          if (!(typeof data === "object" && data && !Array.isArray(data))) {
+            if (validate.errors === null) validate.errors = []
+            validate.errors.push({ keywordLocation: "#/type", instanceLocation: "#" })
+            errorCount++
+          }
+          else {
+            if (!(data.error !== undefined && hasOwn(data, "error"))) {
+              if (validate.errors === null) validate.errors = []
+              validate.errors.push({ keywordLocation: "#/required", instanceLocation: "#/error" })
+              errorCount++
+            }
+            if (!(data.message !== undefined && hasOwn(data, "message"))) {
+              if (validate.errors === null) validate.errors = []
+              validate.errors.push({ keywordLocation: "#/required", instanceLocation: "#/message" })
+              errorCount++
+            }
+            if (!(data.code !== undefined && hasOwn(data, "code"))) {
+              if (validate.errors === null) validate.errors = []
+              validate.errors.push({ keywordLocation: "#/required", instanceLocation: "#/code" })
+              errorCount++
+            }
+            if (!(data.timestamp !== undefined && hasOwn(data, "timestamp"))) {
+              if (validate.errors === null) validate.errors = []
+              validate.errors.push({ keywordLocation: "#/required", instanceLocation: "#/timestamp" })
+              errorCount++
+            }
+            if (data.error !== undefined && hasOwn(data, "error")) {
+              if (!(typeof data.error === "string")) {
+                if (validate.errors === null) validate.errors = []
+                validate.errors.push({ keywordLocation: "#/properties/error/type", instanceLocation: "#/error" })
+                errorCount++
+              }
+            }
+            if (data.message !== undefined && hasOwn(data, "message")) {
+              if (!(typeof data.message === "string")) {
+                if (validate.errors === null) validate.errors = []
+                validate.errors.push({ keywordLocation: "#/properties/message/type", instanceLocation: "#/message" })
+                errorCount++
+              }
+            }
+            if (data.details !== undefined && hasOwn(data, "details")) {
+              if (!(typeof data.details === "object" && data.details && !Array.isArray(data.details))) {
+                if (validate.errors === null) validate.errors = []
+                validate.errors.push({ keywordLocation: "#/properties/details/type", instanceLocation: "#/details" })
+                errorCount++
+              }
+            }
+            if (data.code !== undefined && hasOwn(data, "code")) {
+              if (!(typeof data.code === "string")) {
+                if (validate.errors === null) validate.errors = []
+                validate.errors.push({ keywordLocation: "#/properties/code/type", instanceLocation: "#/code" })
+                errorCount++
+              }
+              else {
+                if (!(data.code === "VALIDATION_ERROR" || data.code === "BUSINESS_RULE_VIOLATION" || data.code === "AUTHENTICATION_ERROR" || data.code === "AUTHORIZATION_ERROR" || data.code === "RESOURCE_NOT_FOUND" || data.code === "CONFLICT" || data.code === "RATE_LIMIT_ERROR" || data.code === "SERVER_ERROR" || data.code === "SERVICE_UNAVAILABLE")) {
+                  if (validate.errors === null) validate.errors = []
+                  validate.errors.push({ keywordLocation: "#/properties/code/enum", instanceLocation: "#/code" })
+                  errorCount++
+                }
+              }
+            }
+            if (data.timestamp !== undefined && hasOwn(data, "timestamp")) {
+              if (!(typeof data.timestamp === "string")) {
+                if (validate.errors === null) validate.errors = []
+                validate.errors.push({ keywordLocation: "#/properties/timestamp/type", instanceLocation: "#/timestamp" })
+                errorCount++
+              }
+            }
+          }
+          return errorCount === 0
+        };
+        return ref0})();;
+      - validators["500"] = validators["500"] || {};
+      - |-
+        validators["500"]["application/json"] = (function() {
+        'use strict'
+        const hasOwn = Function.prototype.call.bind(Object.prototype.hasOwnProperty);
+        const ref0 = function validate(data) {
+          validate.errors = null
+          let errorCount = 0
+          if (!(typeof data === "object" && data && !Array.isArray(data))) {
+            if (validate.errors === null) validate.errors = []
+            validate.errors.push({ keywordLocation: "#/type", instanceLocation: "#" })
+            errorCount++
+          }
+          else {
+            if (!(data.error !== undefined && hasOwn(data, "error"))) {
+              if (validate.errors === null) validate.errors = []
+              validate.errors.push({ keywordLocation: "#/required", instanceLocation: "#/error" })
+              errorCount++
+            }
+            if (!(data.message !== undefined && hasOwn(data, "message"))) {
+              if (validate.errors === null) validate.errors = []
+              validate.errors.push({ keywordLocation: "#/required", instanceLocation: "#/message" })
+              errorCount++
+            }
+            if (!(data.code !== undefined && hasOwn(data, "code"))) {
+              if (validate.errors === null) validate.errors = []
+              validate.errors.push({ keywordLocation: "#/required", instanceLocation: "#/code" })
+              errorCount++
+            }
+            if (!(data.timestamp !== undefined && hasOwn(data, "timestamp"))) {
+              if (validate.errors === null) validate.errors = []
+              validate.errors.push({ keywordLocation: "#/required", instanceLocation: "#/timestamp" })
+              errorCount++
+            }
+            if (data.error !== undefined && hasOwn(data, "error")) {
+              if (!(typeof data.error === "string")) {
+                if (validate.errors === null) validate.errors = []
+                validate.errors.push({ keywordLocation: "#/properties/error/type", instanceLocation: "#/error" })
+                errorCount++
+              }
+            }
+            if (data.message !== undefined && hasOwn(data, "message")) {
+              if (!(typeof data.message === "string")) {
+                if (validate.errors === null) validate.errors = []
+                validate.errors.push({ keywordLocation: "#/properties/message/type", instanceLocation: "#/message" })
+                errorCount++
+              }
+            }
+            if (data.details !== undefined && hasOwn(data, "details")) {
+              if (!(typeof data.details === "object" && data.details && !Array.isArray(data.details))) {
+                if (validate.errors === null) validate.errors = []
+                validate.errors.push({ keywordLocation: "#/properties/details/type", instanceLocation: "#/details" })
+                errorCount++
+              }
+            }
+            if (data.code !== undefined && hasOwn(data, "code")) {
+              if (!(typeof data.code === "string")) {
+                if (validate.errors === null) validate.errors = []
+                validate.errors.push({ keywordLocation: "#/properties/code/type", instanceLocation: "#/code" })
+                errorCount++
+              }
+              else {
+                if (!(data.code === "VALIDATION_ERROR" || data.code === "BUSINESS_RULE_VIOLATION" || data.code === "AUTHENTICATION_ERROR" || data.code === "AUTHORIZATION_ERROR" || data.code === "RESOURCE_NOT_FOUND" || data.code === "CONFLICT" || data.code === "RATE_LIMIT_ERROR" || data.code === "SERVER_ERROR" || data.code === "SERVICE_UNAVAILABLE")) {
+                  if (validate.errors === null) validate.errors = []
+                  validate.errors.push({ keywordLocation: "#/properties/code/enum", instanceLocation: "#/code" })
+                  errorCount++
+                }
+              }
+            }
+            if (data.timestamp !== undefined && hasOwn(data, "timestamp")) {
+              if (!(typeof data.timestamp === "string")) {
+                if (validate.errors === null) validate.errors = []
+                validate.errors.push({ keywordLocation: "#/properties/timestamp/type", instanceLocation: "#/timestamp" })
+                errorCount++
+              }
+            }
+          }
+          return errorCount === 0
+        };
+        return ref0})();;
+      - function selectedResponseContract() {
+      - '  var status = String(pm.response.code);'
+      - '  if (contract.responses[status]) return { key: status, value: contract.responses[status] };'
+      - '  var range = String(Math.floor(pm.response.code / 100)) + ''XX'';'
+      - '  if (contract.responses[range]) return { key: range, value: contract.responses[range] };'
+      - '  if (contract.responses.default) return { key: ''default'', value: contract.responses.default };'
+      - '  return null;'
+      - '}'
+      - function responseText() { return pm.response.text() || ""; }
+      - function isBodyless() { return pm.response.code === 204 || pm.response.code === 205 || pm.response.code === 304 || contract.method === "HEAD"; }
+      - function mediaBase(value) { return String(value || "").toLowerCase().split(";")[0].trim(); }
+      - 'function mediaParts(value) { var base = mediaBase(value); var parts = base.split("/"); return { raw: base, type: parts[0] || "", subtype: parts[1] || "" }; }'
+      - function isJsonSubtype(subtype) { return subtype === "json" || /\+json$/.test(subtype); }
+      - function mediaScore(expected, actual) {
+      - '  var e = mediaParts(expected); var a = mediaParts(actual);'
+      - '  if (!e.raw || !a.raw) return 0;'
+      - '  if (e.raw === a.raw) return 4;'
+      - '  if (e.type === a.type && e.subtype === "json" && isJsonSubtype(a.subtype)) return 3;'
+      - '  if (e.type === a.type && e.subtype === "*+json" && /\+json$/.test(a.subtype)) return 3;'
+      - '  if (e.type === a.type && e.subtype === "*") return 2;'
+      - '  if (e.type === "*" && e.subtype === "*") return 1;'
+      - '  return 0;'
+      - '}'
+      - function selectMedia(responseContract) {
+      - '  var actual = pm.response.headers.get("Content-Type") || "";'
+      - '  var content = responseContract.content || {};'
+      - '  var matches = Object.keys(content).map(function (expected) { return { expected: expected, score: mediaScore(expected, actual), media: content[expected] }; }).filter(function (entry) { return entry.score > 0; }).sort(function (a, b) { return b.score - a.score; });'
+      - '  if (matches.length === 0) return { error: "Content-Type " + actual + " does not match OpenAPI content for " + contract.method + " " + contract.path + " status " + pm.response.code + "; expected " + Object.keys(content).join(", ") };'
+      - '  if (matches.length > 1 && matches[0].score === matches[1].score) return { error: "Content-Type " + actual + " ambiguously matches OpenAPI content for " + contract.method + " " + contract.path + " status " + pm.response.code + "; expected " + Object.keys(content).join(", ") };'
+      - '  return matches[0];'
+      - '}'
+      - var selected = selectedResponseContract();
+      - pm.test('OpenAPI operation mapping exists', function () { pm.expect(contract.path).to.be.a('string').and.not.empty; });
+      - pm.test('Status code is defined by OpenAPI', function () { pm.expect(selected, 'No OpenAPI response defined for ' + contract.method + ' ' + contract.path + ' status ' + pm.response.code).to.exist; });
+      - pm.test('Response headers match OpenAPI', function () {
+      - '  if (!selected) return;'
+      - '  var headers = selected.value.headers || [];'
+      - '  headers.forEach(function (header) {'
+      - '    var actual = pm.response.headers.get(header.name);'
+      - '    if (!actual && header.required) pm.expect.fail("OpenAPI response header missing for " + contract.method + " " + contract.path + ": " + header.name);'
+      - '    if (!actual) return;'
+      - '    if (header.unsupported) pm.expect.fail("OpenAPI response header unsupported for " + contract.method + " " + contract.path + ": " + header.unsupported);'
+      - '    var headerValidator = validators[selected.key] && validators[selected.key].__headers && validators[selected.key].__headers[String(header.name).toLowerCase()];'
+      - '    if (headerValidator && !headerValidator(actual)) pm.expect.fail("OpenAPI response header validation failed for " + header.name + ": " + JSON.stringify(headerValidator.errors || []));'
+      - '  });'
+      - '});'
+      - pm.test('Response body matches OpenAPI body contract', function () {
+      - '  if (!selected) return;'
+      - '  if (isBodyless()) { pm.expect(responseText().trim().length).to.equal(0); return; }'
+      - '  var content = selected.value.content || {};'
+      - '  if (Object.keys(content).length === 0) { pm.expect(responseText().trim().length, "OpenAPI response defines no body but response body was not empty").to.equal(0); }'
+      - '  else { pm.expect(responseText().trim().length, "OpenAPI response defines a body but response body was empty").to.be.above(0); }'
+      - '});'
+      - pm.test('Content-Type matches OpenAPI response content', function () {
+      - '  if (!selected || isBodyless()) return;'
+      - '  var content = selected.value.content || {};'
+      - '  if (Object.keys(content).length === 0) return;'
+      - '  var actual = pm.response.headers.get("Content-Type");'
+      - '  if (!actual) pm.expect.fail("Content-Type <missing> does not match OpenAPI content for " + contract.method + " " + contract.path + " status " + pm.response.code + "; expected " + Object.keys(content).join(", "));'
+      - '  var media = selectMedia(selected.value);'
+      - '  if (media.error) pm.expect.fail(media.error);'
+      - '});'
+      - pm.test('Response body matches OpenAPI schema', function () {
+      - '  if (!selected || isBodyless()) return;'
+      - '  var content = selected.value.content || {};'
+      - '  if (Object.keys(content).length === 0) return;'
+      - '  var media = selectMedia(selected.value);'
+      - '  if (media.error) return;'
+      - '  if (media.media.unsupported) pm.expect.fail("OpenAPI schema unsupported for " + contract.method + " " + contract.path + " status " + pm.response.code + ": " + media.media.unsupported);'
+      - '  if (!media.media.schema) { return; }'
+      - '  var validate = validators[selected.key] && validators[selected.key][media.expected];'
+      - '  if (!validate) pm.expect.fail("OpenAPI schema validator was not generated for " + media.expected);'
+      - '  var actual = mediaParts(pm.response.headers.get("Content-Type") || "");'
+      - '  var value = isJsonSubtype(actual.subtype) ? pm.response.json() : responseText();'
+      - '  if (!isJsonSubtype(actual.subtype) && media.media.schema && media.media.schema.type !== "string") pm.expect.fail("Non-JSON response schema validation unsupported for " + contract.method + " " + contract.path);'
+      - '  if (!validate(value)) pm.expect.fail("OpenAPI schema validation failed for " + contract.method + " " + contract.path + " status " + pm.response.code + ": " + JSON.stringify(validate.errors || []));'
+      - '});'
+    language: text/javascript
+examples:
+  - response:
+      statusCode: 200
+      statusText: OK
+      body:
+        type: json
+        content: |-
+          {
+            "refundId": "rfnd_xyz789ghi012",
+            "status": "pending",
+            "updatedAt": "2024-01-15T11:00:00Z",
+            "estimatedCompletionTime": "2024-01-15T15:00:00Z"
+          }
+      headers:
+        - key: Content-Type
+          value: application/json
+    name: Refund status retrieved successfully
+  - response:
+      statusCode: 401
+      statusText: Unauthorized
+      body:
+        type: json
+        content: |-
+          {
+            "error": "UNAUTHORIZED",
+            "message": "Authentication token is required",
+            "code": "AUTHENTICATION_ERROR",
+            "timestamp": "2024-01-15T10:30:00Z"
+          }
+      headers:
+        - key: Content-Type
+          value: application/json
+    name: Unauthorized - Invalid or missing authentication
+  - response:
+      statusCode: 404
+      statusText: Not Found
+      body:
+        type: json
+        content: |-
+          {
+            "error": "REFUND_NOT_FOUND",
+            "message": "The specified refund was not found",
+            "details": {
+              "refundId": "rfnd_invalid123"
+            },
+            "code": "RESOURCE_NOT_FOUND",
+            "timestamp": "2024-01-15T10:30:00Z"
+          }
+      headers:
+        - key: Content-Type
+          value: application/json
+    name: Refund not found
+  - response:
+      statusCode: 500
+      statusText: Internal Server Error
+      body:
+        type: json
+        content: |-
+          {
+            "error": "INTERNAL_SERVER_ERROR",
+            "message": "An unexpected error occurred",
+            "details": {
+              "requestId": "req_abc123def456"
+            },
+            "code": "SERVER_ERROR",
+            "timestamp": "2024-01-15T10:30:00Z"
+          }
+      headers:
+        - key: Content-Type
+          value: application/json
+    name: Internal server error

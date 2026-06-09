@@ -1,0 +1,1186 @@
+type: http
+name: Create a new refund
+url: '{{baseUrl}}/refunds'
+method: POST
+headers:
+  - key: Content-Type
+    value: application/json
+  - key: Accept
+    value: application/json
+body:
+  type: json
+  content: |-
+    {
+      "transactionId": "txn_1234567890abcdef",
+      "amount": null,
+      "reason": "Customer requested refund",
+      "notifyCustomer": true,
+      "metadata": {
+        "initiatedBy": "admin@example.com",
+        "ticketNumber": "TKT-12345"
+      }
+    }
+scripts:
+  - type: afterResponse
+    code:
+      - var contract = JSON.parse("{\"method\":\"POST\",\"path\":\"/refunds\",\"responses\":{\"201\":{\"content\":{\"application/json\":{\"schema\":{\"type\":\"object\",\"properties\":{\"refundId\":{\"type\":\"string\",\"pattern\":\"^rfnd_[a-zA-Z0-9]+$\"},\"transactionId\":{\"type\":\"string\",\"pattern\":\"^txn_[a-zA-Z0-9]+$\"},\"status\":{\"type\":\"string\",\"enum\":[\"pending\",\"processing\",\"completed\",\"failed\",\"cancelled\"]},\"amount\":{\"type\":\"integer\"},\"currency\":{\"type\":\"string\"},\"refundAmount\":{\"type\":\"integer\"},\"refundCurrency\":{\"type\":\"string\"},\"reason\":{\"type\":\"string\"},\"createdAt\":{\"type\":\"string\"},\"updatedAt\":{\"type\":\"string\"},\"completedAt\":{\"type\":\"string\"},\"cancelledAt\":{\"type\":\"string\"},\"failedAt\":{\"type\":\"string\"},\"estimatedCompletionTime\":{\"type\":\"string\"},\"cancellationReason\":{\"type\":\"string\"},\"failureReason\":{\"type\":\"string\"},\"failureCode\":{\"type\":\"string\"},\"processingTime\":{\"type\":\"integer\"},\"metadata\":{\"type\":\"object\",\"additionalProperties\":true},\"links\":{\"type\":\"object\",\"properties\":{\"self\":{\"type\":\"string\"},\"status\":{\"type\":\"string\"},\"cancel\":{\"type\":\"string\"},\"retry\":{\"type\":\"string\"},\"transaction\":{\"type\":\"string\"}}}},\"$schema\":\"http://json-schema.org/draft-07/schema#\"}}},\"hasBody\":true,\"headers\":[{\"name\":\"Location\",\"required\":false,\"schema\":{\"type\":\"string\",\"$schema\":\"http://json-schema.org/draft-07/schema#\"}}]},\"400\":{\"content\":{\"application/json\":{\"schema\":{\"type\":\"object\",\"required\":[\"error\",\"message\",\"code\",\"timestamp\"],\"properties\":{\"error\":{\"type\":\"string\"},\"message\":{\"type\":\"string\"},\"details\":{\"type\":\"object\",\"additionalProperties\":true},\"code\":{\"type\":\"string\",\"enum\":[\"VALIDATION_ERROR\",\"BUSINESS_RULE_VIOLATION\",\"AUTHENTICATION_ERROR\",\"AUTHORIZATION_ERROR\",\"RESOURCE_NOT_FOUND\",\"CONFLICT\",\"RATE_LIMIT_ERROR\",\"SERVER_ERROR\",\"SERVICE_UNAVAILABLE\"]},\"timestamp\":{\"type\":\"string\"}},\"$schema\":\"http://json-schema.org/draft-07/schema#\"}}},\"hasBody\":true,\"headers\":[]},\"401\":{\"content\":{\"application/json\":{\"schema\":{\"type\":\"object\",\"required\":[\"error\",\"message\",\"code\",\"timestamp\"],\"properties\":{\"error\":{\"type\":\"string\"},\"message\":{\"type\":\"string\"},\"details\":{\"type\":\"object\",\"additionalProperties\":true},\"code\":{\"type\":\"string\",\"enum\":[\"VALIDATION_ERROR\",\"BUSINESS_RULE_VIOLATION\",\"AUTHENTICATION_ERROR\",\"AUTHORIZATION_ERROR\",\"RESOURCE_NOT_FOUND\",\"CONFLICT\",\"RATE_LIMIT_ERROR\",\"SERVER_ERROR\",\"SERVICE_UNAVAILABLE\"]},\"timestamp\":{\"type\":\"string\"}},\"$schema\":\"http://json-schema.org/draft-07/schema#\"}}},\"hasBody\":true,\"headers\":[]},\"404\":{\"content\":{\"application/json\":{\"schema\":{\"type\":\"object\",\"required\":[\"error\",\"message\",\"code\",\"timestamp\"],\"properties\":{\"error\":{\"type\":\"string\"},\"message\":{\"type\":\"string\"},\"details\":{\"type\":\"object\",\"additionalProperties\":true},\"code\":{\"type\":\"string\",\"enum\":[\"VALIDATION_ERROR\",\"BUSINESS_RULE_VIOLATION\",\"AUTHENTICATION_ERROR\",\"AUTHORIZATION_ERROR\",\"RESOURCE_NOT_FOUND\",\"CONFLICT\",\"RATE_LIMIT_ERROR\",\"SERVER_ERROR\",\"SERVICE_UNAVAILABLE\"]},\"timestamp\":{\"type\":\"string\"}},\"$schema\":\"http://json-schema.org/draft-07/schema#\"}}},\"hasBody\":true,\"headers\":[]},\"409\":{\"content\":{\"application/json\":{\"schema\":{\"type\":\"object\",\"required\":[\"error\",\"message\",\"code\",\"timestamp\"],\"properties\":{\"error\":{\"type\":\"string\"},\"message\":{\"type\":\"string\"},\"details\":{\"type\":\"object\",\"additionalProperties\":true},\"code\":{\"type\":\"string\",\"enum\":[\"VALIDATION_ERROR\",\"BUSINESS_RULE_VIOLATION\",\"AUTHENTICATION_ERROR\",\"AUTHORIZATION_ERROR\",\"RESOURCE_NOT_FOUND\",\"CONFLICT\",\"RATE_LIMIT_ERROR\",\"SERVER_ERROR\",\"SERVICE_UNAVAILABLE\"]},\"timestamp\":{\"type\":\"string\"}},\"$schema\":\"http://json-schema.org/draft-07/schema#\"}}},\"hasBody\":true,\"headers\":[]},\"422\":{\"content\":{\"application/json\":{\"schema\":{\"type\":\"object\",\"required\":[\"error\",\"message\",\"code\",\"timestamp\"],\"properties\":{\"error\":{\"type\":\"string\"},\"message\":{\"type\":\"string\"},\"details\":{\"type\":\"object\",\"additionalProperties\":true},\"code\":{\"type\":\"string\",\"enum\":[\"VALIDATION_ERROR\",\"BUSINESS_RULE_VIOLATION\",\"AUTHENTICATION_ERROR\",\"AUTHORIZATION_ERROR\",\"RESOURCE_NOT_FOUND\",\"CONFLICT\",\"RATE_LIMIT_ERROR\",\"SERVER_ERROR\",\"SERVICE_UNAVAILABLE\"]},\"timestamp\":{\"type\":\"string\"}},\"$schema\":\"http://json-schema.org/draft-07/schema#\"}}},\"hasBody\":true,\"headers\":[]},\"429\":{\"content\":{\"application/json\":{\"schema\":{\"type\":\"object\",\"required\":[\"error\",\"message\",\"code\",\"timestamp\"],\"properties\":{\"error\":{\"type\":\"string\"},\"message\":{\"type\":\"string\"},\"details\":{\"type\":\"object\",\"additionalProperties\":true},\"code\":{\"type\":\"string\",\"enum\":[\"VALIDATION_ERROR\",\"BUSINESS_RULE_VIOLATION\",\"AUTHENTICATION_ERROR\",\"AUTHORIZATION_ERROR\",\"RESOURCE_NOT_FOUND\",\"CONFLICT\",\"RATE_LIMIT_ERROR\",\"SERVER_ERROR\",\"SERVICE_UNAVAILABLE\"]},\"timestamp\":{\"type\":\"string\"}},\"$schema\":\"http://json-schema.org/draft-07/schema#\"}}},\"hasBody\":true,\"headers\":[]},\"500\":{\"content\":{\"application/json\":{\"schema\":{\"type\":\"object\",\"required\":[\"error\",\"message\",\"code\",\"timestamp\"],\"properties\":{\"error\":{\"type\":\"string\"},\"message\":{\"type\":\"string\"},\"details\":{\"type\":\"object\",\"additionalProperties\":true},\"code\":{\"type\":\"string\",\"enum\":[\"VALIDATION_ERROR\",\"BUSINESS_RULE_VIOLATION\",\"AUTHENTICATION_ERROR\",\"AUTHORIZATION_ERROR\",\"RESOURCE_NOT_FOUND\",\"CONFLICT\",\"RATE_LIMIT_ERROR\",\"SERVER_ERROR\",\"SERVICE_UNAVAILABLE\"]},\"timestamp\":{\"type\":\"string\"}},\"$schema\":\"http://json-schema.org/draft-07/schema#\"}}},\"hasBody\":true,\"headers\":[]},\"503\":{\"content\":{\"application/json\":{\"schema\":{\"type\":\"object\",\"required\":[\"error\",\"message\",\"code\",\"timestamp\"],\"properties\":{\"error\":{\"type\":\"string\"},\"message\":{\"type\":\"string\"},\"details\":{\"type\":\"object\",\"additionalProperties\":true},\"code\":{\"type\":\"string\",\"enum\":[\"VALIDATION_ERROR\",\"BUSINESS_RULE_VIOLATION\",\"AUTHENTICATION_ERROR\",\"AUTHORIZATION_ERROR\",\"RESOURCE_NOT_FOUND\",\"CONFLICT\",\"RATE_LIMIT_ERROR\",\"SERVER_ERROR\",\"SERVICE_UNAVAILABLE\"]},\"timestamp\":{\"type\":\"string\"}},\"$schema\":\"http://json-schema.org/draft-07/schema#\"}}},\"hasBody\":true,\"headers\":[]}}}");
+      - var validators = {};
+      - validators["201"] = validators["201"] || {};
+      - |-
+        validators["201"]["application/json"] = (function() {
+        'use strict'
+        const hasOwn = Function.prototype.call.bind(Object.prototype.hasOwnProperty);
+        const pattern0 = new RegExp("^rfnd_[a-zA-Z0-9]+$", "u");
+        const pattern1 = new RegExp("^txn_[a-zA-Z0-9]+$", "u");
+        const ref0 = function validate(data) {
+          validate.errors = null
+          let errorCount = 0
+          if (!(typeof data === "object" && data && !Array.isArray(data))) {
+            if (validate.errors === null) validate.errors = []
+            validate.errors.push({ keywordLocation: "#/type", instanceLocation: "#" })
+            errorCount++
+          }
+          else {
+            if (data.refundId !== undefined && hasOwn(data, "refundId")) {
+              if (!(typeof data.refundId === "string")) {
+                if (validate.errors === null) validate.errors = []
+                validate.errors.push({ keywordLocation: "#/properties/refundId/type", instanceLocation: "#/refundId" })
+                errorCount++
+              }
+              else {
+                const prev0 = errorCount
+                if (errorCount === prev0) {
+                  if (!pattern0.test(data.refundId)) {
+                    if (validate.errors === null) validate.errors = []
+                    validate.errors.push({ keywordLocation: "#/properties/refundId/pattern", instanceLocation: "#/refundId" })
+                    errorCount++
+                  }
+                }
+              }
+            }
+            if (data.transactionId !== undefined && hasOwn(data, "transactionId")) {
+              if (!(typeof data.transactionId === "string")) {
+                if (validate.errors === null) validate.errors = []
+                validate.errors.push({ keywordLocation: "#/properties/transactionId/type", instanceLocation: "#/transactionId" })
+                errorCount++
+              }
+              else {
+                const prev1 = errorCount
+                if (errorCount === prev1) {
+                  if (!pattern1.test(data.transactionId)) {
+                    if (validate.errors === null) validate.errors = []
+                    validate.errors.push({ keywordLocation: "#/properties/transactionId/pattern", instanceLocation: "#/transactionId" })
+                    errorCount++
+                  }
+                }
+              }
+            }
+            if (data.status !== undefined && hasOwn(data, "status")) {
+              if (!(typeof data.status === "string")) {
+                if (validate.errors === null) validate.errors = []
+                validate.errors.push({ keywordLocation: "#/properties/status/type", instanceLocation: "#/status" })
+                errorCount++
+              }
+              else {
+                if (!(data.status === "pending" || data.status === "processing" || data.status === "completed" || data.status === "failed" || data.status === "cancelled")) {
+                  if (validate.errors === null) validate.errors = []
+                  validate.errors.push({ keywordLocation: "#/properties/status/enum", instanceLocation: "#/status" })
+                  errorCount++
+                }
+              }
+            }
+            if (data.amount !== undefined && hasOwn(data, "amount")) {
+              if (!Number.isInteger(data.amount)) {
+                if (validate.errors === null) validate.errors = []
+                validate.errors.push({ keywordLocation: "#/properties/amount/type", instanceLocation: "#/amount" })
+                errorCount++
+              }
+            }
+            if (data.currency !== undefined && hasOwn(data, "currency")) {
+              if (!(typeof data.currency === "string")) {
+                if (validate.errors === null) validate.errors = []
+                validate.errors.push({ keywordLocation: "#/properties/currency/type", instanceLocation: "#/currency" })
+                errorCount++
+              }
+            }
+            if (data.refundAmount !== undefined && hasOwn(data, "refundAmount")) {
+              if (!Number.isInteger(data.refundAmount)) {
+                if (validate.errors === null) validate.errors = []
+                validate.errors.push({ keywordLocation: "#/properties/refundAmount/type", instanceLocation: "#/refundAmount" })
+                errorCount++
+              }
+            }
+            if (data.refundCurrency !== undefined && hasOwn(data, "refundCurrency")) {
+              if (!(typeof data.refundCurrency === "string")) {
+                if (validate.errors === null) validate.errors = []
+                validate.errors.push({ keywordLocation: "#/properties/refundCurrency/type", instanceLocation: "#/refundCurrency" })
+                errorCount++
+              }
+            }
+            if (data.reason !== undefined && hasOwn(data, "reason")) {
+              if (!(typeof data.reason === "string")) {
+                if (validate.errors === null) validate.errors = []
+                validate.errors.push({ keywordLocation: "#/properties/reason/type", instanceLocation: "#/reason" })
+                errorCount++
+              }
+            }
+            if (data.createdAt !== undefined && hasOwn(data, "createdAt")) {
+              if (!(typeof data.createdAt === "string")) {
+                if (validate.errors === null) validate.errors = []
+                validate.errors.push({ keywordLocation: "#/properties/createdAt/type", instanceLocation: "#/createdAt" })
+                errorCount++
+              }
+            }
+            if (data.updatedAt !== undefined && hasOwn(data, "updatedAt")) {
+              if (!(typeof data.updatedAt === "string")) {
+                if (validate.errors === null) validate.errors = []
+                validate.errors.push({ keywordLocation: "#/properties/updatedAt/type", instanceLocation: "#/updatedAt" })
+                errorCount++
+              }
+            }
+            if (data.completedAt !== undefined && hasOwn(data, "completedAt")) {
+              if (!(typeof data.completedAt === "string")) {
+                if (validate.errors === null) validate.errors = []
+                validate.errors.push({ keywordLocation: "#/properties/completedAt/type", instanceLocation: "#/completedAt" })
+                errorCount++
+              }
+            }
+            if (data.cancelledAt !== undefined && hasOwn(data, "cancelledAt")) {
+              if (!(typeof data.cancelledAt === "string")) {
+                if (validate.errors === null) validate.errors = []
+                validate.errors.push({ keywordLocation: "#/properties/cancelledAt/type", instanceLocation: "#/cancelledAt" })
+                errorCount++
+              }
+            }
+            if (data.failedAt !== undefined && hasOwn(data, "failedAt")) {
+              if (!(typeof data.failedAt === "string")) {
+                if (validate.errors === null) validate.errors = []
+                validate.errors.push({ keywordLocation: "#/properties/failedAt/type", instanceLocation: "#/failedAt" })
+                errorCount++
+              }
+            }
+            if (data.estimatedCompletionTime !== undefined && hasOwn(data, "estimatedCompletionTime")) {
+              if (!(typeof data.estimatedCompletionTime === "string")) {
+                if (validate.errors === null) validate.errors = []
+                validate.errors.push({ keywordLocation: "#/properties/estimatedCompletionTime/type", instanceLocation: "#/estimatedCompletionTime" })
+                errorCount++
+              }
+            }
+            if (data.cancellationReason !== undefined && hasOwn(data, "cancellationReason")) {
+              if (!(typeof data.cancellationReason === "string")) {
+                if (validate.errors === null) validate.errors = []
+                validate.errors.push({ keywordLocation: "#/properties/cancellationReason/type", instanceLocation: "#/cancellationReason" })
+                errorCount++
+              }
+            }
+            if (data.failureReason !== undefined && hasOwn(data, "failureReason")) {
+              if (!(typeof data.failureReason === "string")) {
+                if (validate.errors === null) validate.errors = []
+                validate.errors.push({ keywordLocation: "#/properties/failureReason/type", instanceLocation: "#/failureReason" })
+                errorCount++
+              }
+            }
+            if (data.failureCode !== undefined && hasOwn(data, "failureCode")) {
+              if (!(typeof data.failureCode === "string")) {
+                if (validate.errors === null) validate.errors = []
+                validate.errors.push({ keywordLocation: "#/properties/failureCode/type", instanceLocation: "#/failureCode" })
+                errorCount++
+              }
+            }
+            if (data.processingTime !== undefined && hasOwn(data, "processingTime")) {
+              if (!Number.isInteger(data.processingTime)) {
+                if (validate.errors === null) validate.errors = []
+                validate.errors.push({ keywordLocation: "#/properties/processingTime/type", instanceLocation: "#/processingTime" })
+                errorCount++
+              }
+            }
+            if (data.metadata !== undefined && hasOwn(data, "metadata")) {
+              if (!(typeof data.metadata === "object" && data.metadata && !Array.isArray(data.metadata))) {
+                if (validate.errors === null) validate.errors = []
+                validate.errors.push({ keywordLocation: "#/properties/metadata/type", instanceLocation: "#/metadata" })
+                errorCount++
+              }
+            }
+            if (data.links !== undefined && hasOwn(data, "links")) {
+              if (!(typeof data.links === "object" && data.links && !Array.isArray(data.links))) {
+                if (validate.errors === null) validate.errors = []
+                validate.errors.push({ keywordLocation: "#/properties/links/type", instanceLocation: "#/links" })
+                errorCount++
+              }
+              else {
+                if (data.links.self !== undefined && hasOwn(data.links, "self")) {
+                  if (!(typeof data.links.self === "string")) {
+                    if (validate.errors === null) validate.errors = []
+                    validate.errors.push({ keywordLocation: "#/properties/links/properties/self/type", instanceLocation: "#/links/self" })
+                    errorCount++
+                  }
+                }
+                if (data.links.status !== undefined && hasOwn(data.links, "status")) {
+                  if (!(typeof data.links.status === "string")) {
+                    if (validate.errors === null) validate.errors = []
+                    validate.errors.push({ keywordLocation: "#/properties/links/properties/status/type", instanceLocation: "#/links/status" })
+                    errorCount++
+                  }
+                }
+                if (data.links.cancel !== undefined && hasOwn(data.links, "cancel")) {
+                  if (!(typeof data.links.cancel === "string")) {
+                    if (validate.errors === null) validate.errors = []
+                    validate.errors.push({ keywordLocation: "#/properties/links/properties/cancel/type", instanceLocation: "#/links/cancel" })
+                    errorCount++
+                  }
+                }
+                if (data.links.retry !== undefined && hasOwn(data.links, "retry")) {
+                  if (!(typeof data.links.retry === "string")) {
+                    if (validate.errors === null) validate.errors = []
+                    validate.errors.push({ keywordLocation: "#/properties/links/properties/retry/type", instanceLocation: "#/links/retry" })
+                    errorCount++
+                  }
+                }
+                if (data.links.transaction !== undefined && hasOwn(data.links, "transaction")) {
+                  if (!(typeof data.links.transaction === "string")) {
+                    if (validate.errors === null) validate.errors = []
+                    validate.errors.push({ keywordLocation: "#/properties/links/properties/transaction/type", instanceLocation: "#/links/transaction" })
+                    errorCount++
+                  }
+                }
+              }
+            }
+          }
+          return errorCount === 0
+        };
+        return ref0})();;
+      - validators["201"].__headers = validators["201"].__headers || {};
+      - |-
+        validators["201"].__headers["location"] = (function() {
+        'use strict'
+        const ref0 = function validate(data) {
+          validate.errors = null
+          let errorCount = 0
+          if (!(typeof data === "string")) {
+            if (validate.errors === null) validate.errors = []
+            validate.errors.push({ keywordLocation: "#/type", instanceLocation: "#" })
+            errorCount++
+          }
+          return errorCount === 0
+        };
+        return ref0})();;
+      - validators["400"] = validators["400"] || {};
+      - |-
+        validators["400"]["application/json"] = (function() {
+        'use strict'
+        const hasOwn = Function.prototype.call.bind(Object.prototype.hasOwnProperty);
+        const ref0 = function validate(data) {
+          validate.errors = null
+          let errorCount = 0
+          if (!(typeof data === "object" && data && !Array.isArray(data))) {
+            if (validate.errors === null) validate.errors = []
+            validate.errors.push({ keywordLocation: "#/type", instanceLocation: "#" })
+            errorCount++
+          }
+          else {
+            if (!(data.error !== undefined && hasOwn(data, "error"))) {
+              if (validate.errors === null) validate.errors = []
+              validate.errors.push({ keywordLocation: "#/required", instanceLocation: "#/error" })
+              errorCount++
+            }
+            if (!(data.message !== undefined && hasOwn(data, "message"))) {
+              if (validate.errors === null) validate.errors = []
+              validate.errors.push({ keywordLocation: "#/required", instanceLocation: "#/message" })
+              errorCount++
+            }
+            if (!(data.code !== undefined && hasOwn(data, "code"))) {
+              if (validate.errors === null) validate.errors = []
+              validate.errors.push({ keywordLocation: "#/required", instanceLocation: "#/code" })
+              errorCount++
+            }
+            if (!(data.timestamp !== undefined && hasOwn(data, "timestamp"))) {
+              if (validate.errors === null) validate.errors = []
+              validate.errors.push({ keywordLocation: "#/required", instanceLocation: "#/timestamp" })
+              errorCount++
+            }
+            if (data.error !== undefined && hasOwn(data, "error")) {
+              if (!(typeof data.error === "string")) {
+                if (validate.errors === null) validate.errors = []
+                validate.errors.push({ keywordLocation: "#/properties/error/type", instanceLocation: "#/error" })
+                errorCount++
+              }
+            }
+            if (data.message !== undefined && hasOwn(data, "message")) {
+              if (!(typeof data.message === "string")) {
+                if (validate.errors === null) validate.errors = []
+                validate.errors.push({ keywordLocation: "#/properties/message/type", instanceLocation: "#/message" })
+                errorCount++
+              }
+            }
+            if (data.details !== undefined && hasOwn(data, "details")) {
+              if (!(typeof data.details === "object" && data.details && !Array.isArray(data.details))) {
+                if (validate.errors === null) validate.errors = []
+                validate.errors.push({ keywordLocation: "#/properties/details/type", instanceLocation: "#/details" })
+                errorCount++
+              }
+            }
+            if (data.code !== undefined && hasOwn(data, "code")) {
+              if (!(typeof data.code === "string")) {
+                if (validate.errors === null) validate.errors = []
+                validate.errors.push({ keywordLocation: "#/properties/code/type", instanceLocation: "#/code" })
+                errorCount++
+              }
+              else {
+                if (!(data.code === "VALIDATION_ERROR" || data.code === "BUSINESS_RULE_VIOLATION" || data.code === "AUTHENTICATION_ERROR" || data.code === "AUTHORIZATION_ERROR" || data.code === "RESOURCE_NOT_FOUND" || data.code === "CONFLICT" || data.code === "RATE_LIMIT_ERROR" || data.code === "SERVER_ERROR" || data.code === "SERVICE_UNAVAILABLE")) {
+                  if (validate.errors === null) validate.errors = []
+                  validate.errors.push({ keywordLocation: "#/properties/code/enum", instanceLocation: "#/code" })
+                  errorCount++
+                }
+              }
+            }
+            if (data.timestamp !== undefined && hasOwn(data, "timestamp")) {
+              if (!(typeof data.timestamp === "string")) {
+                if (validate.errors === null) validate.errors = []
+                validate.errors.push({ keywordLocation: "#/properties/timestamp/type", instanceLocation: "#/timestamp" })
+                errorCount++
+              }
+            }
+          }
+          return errorCount === 0
+        };
+        return ref0})();;
+      - validators["401"] = validators["401"] || {};
+      - |-
+        validators["401"]["application/json"] = (function() {
+        'use strict'
+        const hasOwn = Function.prototype.call.bind(Object.prototype.hasOwnProperty);
+        const ref0 = function validate(data) {
+          validate.errors = null
+          let errorCount = 0
+          if (!(typeof data === "object" && data && !Array.isArray(data))) {
+            if (validate.errors === null) validate.errors = []
+            validate.errors.push({ keywordLocation: "#/type", instanceLocation: "#" })
+            errorCount++
+          }
+          else {
+            if (!(data.error !== undefined && hasOwn(data, "error"))) {
+              if (validate.errors === null) validate.errors = []
+              validate.errors.push({ keywordLocation: "#/required", instanceLocation: "#/error" })
+              errorCount++
+            }
+            if (!(data.message !== undefined && hasOwn(data, "message"))) {
+              if (validate.errors === null) validate.errors = []
+              validate.errors.push({ keywordLocation: "#/required", instanceLocation: "#/message" })
+              errorCount++
+            }
+            if (!(data.code !== undefined && hasOwn(data, "code"))) {
+              if (validate.errors === null) validate.errors = []
+              validate.errors.push({ keywordLocation: "#/required", instanceLocation: "#/code" })
+              errorCount++
+            }
+            if (!(data.timestamp !== undefined && hasOwn(data, "timestamp"))) {
+              if (validate.errors === null) validate.errors = []
+              validate.errors.push({ keywordLocation: "#/required", instanceLocation: "#/timestamp" })
+              errorCount++
+            }
+            if (data.error !== undefined && hasOwn(data, "error")) {
+              if (!(typeof data.error === "string")) {
+                if (validate.errors === null) validate.errors = []
+                validate.errors.push({ keywordLocation: "#/properties/error/type", instanceLocation: "#/error" })
+                errorCount++
+              }
+            }
+            if (data.message !== undefined && hasOwn(data, "message")) {
+              if (!(typeof data.message === "string")) {
+                if (validate.errors === null) validate.errors = []
+                validate.errors.push({ keywordLocation: "#/properties/message/type", instanceLocation: "#/message" })
+                errorCount++
+              }
+            }
+            if (data.details !== undefined && hasOwn(data, "details")) {
+              if (!(typeof data.details === "object" && data.details && !Array.isArray(data.details))) {
+                if (validate.errors === null) validate.errors = []
+                validate.errors.push({ keywordLocation: "#/properties/details/type", instanceLocation: "#/details" })
+                errorCount++
+              }
+            }
+            if (data.code !== undefined && hasOwn(data, "code")) {
+              if (!(typeof data.code === "string")) {
+                if (validate.errors === null) validate.errors = []
+                validate.errors.push({ keywordLocation: "#/properties/code/type", instanceLocation: "#/code" })
+                errorCount++
+              }
+              else {
+                if (!(data.code === "VALIDATION_ERROR" || data.code === "BUSINESS_RULE_VIOLATION" || data.code === "AUTHENTICATION_ERROR" || data.code === "AUTHORIZATION_ERROR" || data.code === "RESOURCE_NOT_FOUND" || data.code === "CONFLICT" || data.code === "RATE_LIMIT_ERROR" || data.code === "SERVER_ERROR" || data.code === "SERVICE_UNAVAILABLE")) {
+                  if (validate.errors === null) validate.errors = []
+                  validate.errors.push({ keywordLocation: "#/properties/code/enum", instanceLocation: "#/code" })
+                  errorCount++
+                }
+              }
+            }
+            if (data.timestamp !== undefined && hasOwn(data, "timestamp")) {
+              if (!(typeof data.timestamp === "string")) {
+                if (validate.errors === null) validate.errors = []
+                validate.errors.push({ keywordLocation: "#/properties/timestamp/type", instanceLocation: "#/timestamp" })
+                errorCount++
+              }
+            }
+          }
+          return errorCount === 0
+        };
+        return ref0})();;
+      - validators["404"] = validators["404"] || {};
+      - |-
+        validators["404"]["application/json"] = (function() {
+        'use strict'
+        const hasOwn = Function.prototype.call.bind(Object.prototype.hasOwnProperty);
+        const ref0 = function validate(data) {
+          validate.errors = null
+          let errorCount = 0
+          if (!(typeof data === "object" && data && !Array.isArray(data))) {
+            if (validate.errors === null) validate.errors = []
+            validate.errors.push({ keywordLocation: "#/type", instanceLocation: "#" })
+            errorCount++
+          }
+          else {
+            if (!(data.error !== undefined && hasOwn(data, "error"))) {
+              if (validate.errors === null) validate.errors = []
+              validate.errors.push({ keywordLocation: "#/required", instanceLocation: "#/error" })
+              errorCount++
+            }
+            if (!(data.message !== undefined && hasOwn(data, "message"))) {
+              if (validate.errors === null) validate.errors = []
+              validate.errors.push({ keywordLocation: "#/required", instanceLocation: "#/message" })
+              errorCount++
+            }
+            if (!(data.code !== undefined && hasOwn(data, "code"))) {
+              if (validate.errors === null) validate.errors = []
+              validate.errors.push({ keywordLocation: "#/required", instanceLocation: "#/code" })
+              errorCount++
+            }
+            if (!(data.timestamp !== undefined && hasOwn(data, "timestamp"))) {
+              if (validate.errors === null) validate.errors = []
+              validate.errors.push({ keywordLocation: "#/required", instanceLocation: "#/timestamp" })
+              errorCount++
+            }
+            if (data.error !== undefined && hasOwn(data, "error")) {
+              if (!(typeof data.error === "string")) {
+                if (validate.errors === null) validate.errors = []
+                validate.errors.push({ keywordLocation: "#/properties/error/type", instanceLocation: "#/error" })
+                errorCount++
+              }
+            }
+            if (data.message !== undefined && hasOwn(data, "message")) {
+              if (!(typeof data.message === "string")) {
+                if (validate.errors === null) validate.errors = []
+                validate.errors.push({ keywordLocation: "#/properties/message/type", instanceLocation: "#/message" })
+                errorCount++
+              }
+            }
+            if (data.details !== undefined && hasOwn(data, "details")) {
+              if (!(typeof data.details === "object" && data.details && !Array.isArray(data.details))) {
+                if (validate.errors === null) validate.errors = []
+                validate.errors.push({ keywordLocation: "#/properties/details/type", instanceLocation: "#/details" })
+                errorCount++
+              }
+            }
+            if (data.code !== undefined && hasOwn(data, "code")) {
+              if (!(typeof data.code === "string")) {
+                if (validate.errors === null) validate.errors = []
+                validate.errors.push({ keywordLocation: "#/properties/code/type", instanceLocation: "#/code" })
+                errorCount++
+              }
+              else {
+                if (!(data.code === "VALIDATION_ERROR" || data.code === "BUSINESS_RULE_VIOLATION" || data.code === "AUTHENTICATION_ERROR" || data.code === "AUTHORIZATION_ERROR" || data.code === "RESOURCE_NOT_FOUND" || data.code === "CONFLICT" || data.code === "RATE_LIMIT_ERROR" || data.code === "SERVER_ERROR" || data.code === "SERVICE_UNAVAILABLE")) {
+                  if (validate.errors === null) validate.errors = []
+                  validate.errors.push({ keywordLocation: "#/properties/code/enum", instanceLocation: "#/code" })
+                  errorCount++
+                }
+              }
+            }
+            if (data.timestamp !== undefined && hasOwn(data, "timestamp")) {
+              if (!(typeof data.timestamp === "string")) {
+                if (validate.errors === null) validate.errors = []
+                validate.errors.push({ keywordLocation: "#/properties/timestamp/type", instanceLocation: "#/timestamp" })
+                errorCount++
+              }
+            }
+          }
+          return errorCount === 0
+        };
+        return ref0})();;
+      - validators["409"] = validators["409"] || {};
+      - |-
+        validators["409"]["application/json"] = (function() {
+        'use strict'
+        const hasOwn = Function.prototype.call.bind(Object.prototype.hasOwnProperty);
+        const ref0 = function validate(data) {
+          validate.errors = null
+          let errorCount = 0
+          if (!(typeof data === "object" && data && !Array.isArray(data))) {
+            if (validate.errors === null) validate.errors = []
+            validate.errors.push({ keywordLocation: "#/type", instanceLocation: "#" })
+            errorCount++
+          }
+          else {
+            if (!(data.error !== undefined && hasOwn(data, "error"))) {
+              if (validate.errors === null) validate.errors = []
+              validate.errors.push({ keywordLocation: "#/required", instanceLocation: "#/error" })
+              errorCount++
+            }
+            if (!(data.message !== undefined && hasOwn(data, "message"))) {
+              if (validate.errors === null) validate.errors = []
+              validate.errors.push({ keywordLocation: "#/required", instanceLocation: "#/message" })
+              errorCount++
+            }
+            if (!(data.code !== undefined && hasOwn(data, "code"))) {
+              if (validate.errors === null) validate.errors = []
+              validate.errors.push({ keywordLocation: "#/required", instanceLocation: "#/code" })
+              errorCount++
+            }
+            if (!(data.timestamp !== undefined && hasOwn(data, "timestamp"))) {
+              if (validate.errors === null) validate.errors = []
+              validate.errors.push({ keywordLocation: "#/required", instanceLocation: "#/timestamp" })
+              errorCount++
+            }
+            if (data.error !== undefined && hasOwn(data, "error")) {
+              if (!(typeof data.error === "string")) {
+                if (validate.errors === null) validate.errors = []
+                validate.errors.push({ keywordLocation: "#/properties/error/type", instanceLocation: "#/error" })
+                errorCount++
+              }
+            }
+            if (data.message !== undefined && hasOwn(data, "message")) {
+              if (!(typeof data.message === "string")) {
+                if (validate.errors === null) validate.errors = []
+                validate.errors.push({ keywordLocation: "#/properties/message/type", instanceLocation: "#/message" })
+                errorCount++
+              }
+            }
+            if (data.details !== undefined && hasOwn(data, "details")) {
+              if (!(typeof data.details === "object" && data.details && !Array.isArray(data.details))) {
+                if (validate.errors === null) validate.errors = []
+                validate.errors.push({ keywordLocation: "#/properties/details/type", instanceLocation: "#/details" })
+                errorCount++
+              }
+            }
+            if (data.code !== undefined && hasOwn(data, "code")) {
+              if (!(typeof data.code === "string")) {
+                if (validate.errors === null) validate.errors = []
+                validate.errors.push({ keywordLocation: "#/properties/code/type", instanceLocation: "#/code" })
+                errorCount++
+              }
+              else {
+                if (!(data.code === "VALIDATION_ERROR" || data.code === "BUSINESS_RULE_VIOLATION" || data.code === "AUTHENTICATION_ERROR" || data.code === "AUTHORIZATION_ERROR" || data.code === "RESOURCE_NOT_FOUND" || data.code === "CONFLICT" || data.code === "RATE_LIMIT_ERROR" || data.code === "SERVER_ERROR" || data.code === "SERVICE_UNAVAILABLE")) {
+                  if (validate.errors === null) validate.errors = []
+                  validate.errors.push({ keywordLocation: "#/properties/code/enum", instanceLocation: "#/code" })
+                  errorCount++
+                }
+              }
+            }
+            if (data.timestamp !== undefined && hasOwn(data, "timestamp")) {
+              if (!(typeof data.timestamp === "string")) {
+                if (validate.errors === null) validate.errors = []
+                validate.errors.push({ keywordLocation: "#/properties/timestamp/type", instanceLocation: "#/timestamp" })
+                errorCount++
+              }
+            }
+          }
+          return errorCount === 0
+        };
+        return ref0})();;
+      - validators["422"] = validators["422"] || {};
+      - |-
+        validators["422"]["application/json"] = (function() {
+        'use strict'
+        const hasOwn = Function.prototype.call.bind(Object.prototype.hasOwnProperty);
+        const ref0 = function validate(data) {
+          validate.errors = null
+          let errorCount = 0
+          if (!(typeof data === "object" && data && !Array.isArray(data))) {
+            if (validate.errors === null) validate.errors = []
+            validate.errors.push({ keywordLocation: "#/type", instanceLocation: "#" })
+            errorCount++
+          }
+          else {
+            if (!(data.error !== undefined && hasOwn(data, "error"))) {
+              if (validate.errors === null) validate.errors = []
+              validate.errors.push({ keywordLocation: "#/required", instanceLocation: "#/error" })
+              errorCount++
+            }
+            if (!(data.message !== undefined && hasOwn(data, "message"))) {
+              if (validate.errors === null) validate.errors = []
+              validate.errors.push({ keywordLocation: "#/required", instanceLocation: "#/message" })
+              errorCount++
+            }
+            if (!(data.code !== undefined && hasOwn(data, "code"))) {
+              if (validate.errors === null) validate.errors = []
+              validate.errors.push({ keywordLocation: "#/required", instanceLocation: "#/code" })
+              errorCount++
+            }
+            if (!(data.timestamp !== undefined && hasOwn(data, "timestamp"))) {
+              if (validate.errors === null) validate.errors = []
+              validate.errors.push({ keywordLocation: "#/required", instanceLocation: "#/timestamp" })
+              errorCount++
+            }
+            if (data.error !== undefined && hasOwn(data, "error")) {
+              if (!(typeof data.error === "string")) {
+                if (validate.errors === null) validate.errors = []
+                validate.errors.push({ keywordLocation: "#/properties/error/type", instanceLocation: "#/error" })
+                errorCount++
+              }
+            }
+            if (data.message !== undefined && hasOwn(data, "message")) {
+              if (!(typeof data.message === "string")) {
+                if (validate.errors === null) validate.errors = []
+                validate.errors.push({ keywordLocation: "#/properties/message/type", instanceLocation: "#/message" })
+                errorCount++
+              }
+            }
+            if (data.details !== undefined && hasOwn(data, "details")) {
+              if (!(typeof data.details === "object" && data.details && !Array.isArray(data.details))) {
+                if (validate.errors === null) validate.errors = []
+                validate.errors.push({ keywordLocation: "#/properties/details/type", instanceLocation: "#/details" })
+                errorCount++
+              }
+            }
+            if (data.code !== undefined && hasOwn(data, "code")) {
+              if (!(typeof data.code === "string")) {
+                if (validate.errors === null) validate.errors = []
+                validate.errors.push({ keywordLocation: "#/properties/code/type", instanceLocation: "#/code" })
+                errorCount++
+              }
+              else {
+                if (!(data.code === "VALIDATION_ERROR" || data.code === "BUSINESS_RULE_VIOLATION" || data.code === "AUTHENTICATION_ERROR" || data.code === "AUTHORIZATION_ERROR" || data.code === "RESOURCE_NOT_FOUND" || data.code === "CONFLICT" || data.code === "RATE_LIMIT_ERROR" || data.code === "SERVER_ERROR" || data.code === "SERVICE_UNAVAILABLE")) {
+                  if (validate.errors === null) validate.errors = []
+                  validate.errors.push({ keywordLocation: "#/properties/code/enum", instanceLocation: "#/code" })
+                  errorCount++
+                }
+              }
+            }
+            if (data.timestamp !== undefined && hasOwn(data, "timestamp")) {
+              if (!(typeof data.timestamp === "string")) {
+                if (validate.errors === null) validate.errors = []
+                validate.errors.push({ keywordLocation: "#/properties/timestamp/type", instanceLocation: "#/timestamp" })
+                errorCount++
+              }
+            }
+          }
+          return errorCount === 0
+        };
+        return ref0})();;
+      - validators["429"] = validators["429"] || {};
+      - |-
+        validators["429"]["application/json"] = (function() {
+        'use strict'
+        const hasOwn = Function.prototype.call.bind(Object.prototype.hasOwnProperty);
+        const ref0 = function validate(data) {
+          validate.errors = null
+          let errorCount = 0
+          if (!(typeof data === "object" && data && !Array.isArray(data))) {
+            if (validate.errors === null) validate.errors = []
+            validate.errors.push({ keywordLocation: "#/type", instanceLocation: "#" })
+            errorCount++
+          }
+          else {
+            if (!(data.error !== undefined && hasOwn(data, "error"))) {
+              if (validate.errors === null) validate.errors = []
+              validate.errors.push({ keywordLocation: "#/required", instanceLocation: "#/error" })
+              errorCount++
+            }
+            if (!(data.message !== undefined && hasOwn(data, "message"))) {
+              if (validate.errors === null) validate.errors = []
+              validate.errors.push({ keywordLocation: "#/required", instanceLocation: "#/message" })
+              errorCount++
+            }
+            if (!(data.code !== undefined && hasOwn(data, "code"))) {
+              if (validate.errors === null) validate.errors = []
+              validate.errors.push({ keywordLocation: "#/required", instanceLocation: "#/code" })
+              errorCount++
+            }
+            if (!(data.timestamp !== undefined && hasOwn(data, "timestamp"))) {
+              if (validate.errors === null) validate.errors = []
+              validate.errors.push({ keywordLocation: "#/required", instanceLocation: "#/timestamp" })
+              errorCount++
+            }
+            if (data.error !== undefined && hasOwn(data, "error")) {
+              if (!(typeof data.error === "string")) {
+                if (validate.errors === null) validate.errors = []
+                validate.errors.push({ keywordLocation: "#/properties/error/type", instanceLocation: "#/error" })
+                errorCount++
+              }
+            }
+            if (data.message !== undefined && hasOwn(data, "message")) {
+              if (!(typeof data.message === "string")) {
+                if (validate.errors === null) validate.errors = []
+                validate.errors.push({ keywordLocation: "#/properties/message/type", instanceLocation: "#/message" })
+                errorCount++
+              }
+            }
+            if (data.details !== undefined && hasOwn(data, "details")) {
+              if (!(typeof data.details === "object" && data.details && !Array.isArray(data.details))) {
+                if (validate.errors === null) validate.errors = []
+                validate.errors.push({ keywordLocation: "#/properties/details/type", instanceLocation: "#/details" })
+                errorCount++
+              }
+            }
+            if (data.code !== undefined && hasOwn(data, "code")) {
+              if (!(typeof data.code === "string")) {
+                if (validate.errors === null) validate.errors = []
+                validate.errors.push({ keywordLocation: "#/properties/code/type", instanceLocation: "#/code" })
+                errorCount++
+              }
+              else {
+                if (!(data.code === "VALIDATION_ERROR" || data.code === "BUSINESS_RULE_VIOLATION" || data.code === "AUTHENTICATION_ERROR" || data.code === "AUTHORIZATION_ERROR" || data.code === "RESOURCE_NOT_FOUND" || data.code === "CONFLICT" || data.code === "RATE_LIMIT_ERROR" || data.code === "SERVER_ERROR" || data.code === "SERVICE_UNAVAILABLE")) {
+                  if (validate.errors === null) validate.errors = []
+                  validate.errors.push({ keywordLocation: "#/properties/code/enum", instanceLocation: "#/code" })
+                  errorCount++
+                }
+              }
+            }
+            if (data.timestamp !== undefined && hasOwn(data, "timestamp")) {
+              if (!(typeof data.timestamp === "string")) {
+                if (validate.errors === null) validate.errors = []
+                validate.errors.push({ keywordLocation: "#/properties/timestamp/type", instanceLocation: "#/timestamp" })
+                errorCount++
+              }
+            }
+          }
+          return errorCount === 0
+        };
+        return ref0})();;
+      - validators["500"] = validators["500"] || {};
+      - |-
+        validators["500"]["application/json"] = (function() {
+        'use strict'
+        const hasOwn = Function.prototype.call.bind(Object.prototype.hasOwnProperty);
+        const ref0 = function validate(data) {
+          validate.errors = null
+          let errorCount = 0
+          if (!(typeof data === "object" && data && !Array.isArray(data))) {
+            if (validate.errors === null) validate.errors = []
+            validate.errors.push({ keywordLocation: "#/type", instanceLocation: "#" })
+            errorCount++
+          }
+          else {
+            if (!(data.error !== undefined && hasOwn(data, "error"))) {
+              if (validate.errors === null) validate.errors = []
+              validate.errors.push({ keywordLocation: "#/required", instanceLocation: "#/error" })
+              errorCount++
+            }
+            if (!(data.message !== undefined && hasOwn(data, "message"))) {
+              if (validate.errors === null) validate.errors = []
+              validate.errors.push({ keywordLocation: "#/required", instanceLocation: "#/message" })
+              errorCount++
+            }
+            if (!(data.code !== undefined && hasOwn(data, "code"))) {
+              if (validate.errors === null) validate.errors = []
+              validate.errors.push({ keywordLocation: "#/required", instanceLocation: "#/code" })
+              errorCount++
+            }
+            if (!(data.timestamp !== undefined && hasOwn(data, "timestamp"))) {
+              if (validate.errors === null) validate.errors = []
+              validate.errors.push({ keywordLocation: "#/required", instanceLocation: "#/timestamp" })
+              errorCount++
+            }
+            if (data.error !== undefined && hasOwn(data, "error")) {
+              if (!(typeof data.error === "string")) {
+                if (validate.errors === null) validate.errors = []
+                validate.errors.push({ keywordLocation: "#/properties/error/type", instanceLocation: "#/error" })
+                errorCount++
+              }
+            }
+            if (data.message !== undefined && hasOwn(data, "message")) {
+              if (!(typeof data.message === "string")) {
+                if (validate.errors === null) validate.errors = []
+                validate.errors.push({ keywordLocation: "#/properties/message/type", instanceLocation: "#/message" })
+                errorCount++
+              }
+            }
+            if (data.details !== undefined && hasOwn(data, "details")) {
+              if (!(typeof data.details === "object" && data.details && !Array.isArray(data.details))) {
+                if (validate.errors === null) validate.errors = []
+                validate.errors.push({ keywordLocation: "#/properties/details/type", instanceLocation: "#/details" })
+                errorCount++
+              }
+            }
+            if (data.code !== undefined && hasOwn(data, "code")) {
+              if (!(typeof data.code === "string")) {
+                if (validate.errors === null) validate.errors = []
+                validate.errors.push({ keywordLocation: "#/properties/code/type", instanceLocation: "#/code" })
+                errorCount++
+              }
+              else {
+                if (!(data.code === "VALIDATION_ERROR" || data.code === "BUSINESS_RULE_VIOLATION" || data.code === "AUTHENTICATION_ERROR" || data.code === "AUTHORIZATION_ERROR" || data.code === "RESOURCE_NOT_FOUND" || data.code === "CONFLICT" || data.code === "RATE_LIMIT_ERROR" || data.code === "SERVER_ERROR" || data.code === "SERVICE_UNAVAILABLE")) {
+                  if (validate.errors === null) validate.errors = []
+                  validate.errors.push({ keywordLocation: "#/properties/code/enum", instanceLocation: "#/code" })
+                  errorCount++
+                }
+              }
+            }
+            if (data.timestamp !== undefined && hasOwn(data, "timestamp")) {
+              if (!(typeof data.timestamp === "string")) {
+                if (validate.errors === null) validate.errors = []
+                validate.errors.push({ keywordLocation: "#/properties/timestamp/type", instanceLocation: "#/timestamp" })
+                errorCount++
+              }
+            }
+          }
+          return errorCount === 0
+        };
+        return ref0})();;
+      - validators["503"] = validators["503"] || {};
+      - |-
+        validators["503"]["application/json"] = (function() {
+        'use strict'
+        const hasOwn = Function.prototype.call.bind(Object.prototype.hasOwnProperty);
+        const ref0 = function validate(data) {
+          validate.errors = null
+          let errorCount = 0
+          if (!(typeof data === "object" && data && !Array.isArray(data))) {
+            if (validate.errors === null) validate.errors = []
+            validate.errors.push({ keywordLocation: "#/type", instanceLocation: "#" })
+            errorCount++
+          }
+          else {
+            if (!(data.error !== undefined && hasOwn(data, "error"))) {
+              if (validate.errors === null) validate.errors = []
+              validate.errors.push({ keywordLocation: "#/required", instanceLocation: "#/error" })
+              errorCount++
+            }
+            if (!(data.message !== undefined && hasOwn(data, "message"))) {
+              if (validate.errors === null) validate.errors = []
+              validate.errors.push({ keywordLocation: "#/required", instanceLocation: "#/message" })
+              errorCount++
+            }
+            if (!(data.code !== undefined && hasOwn(data, "code"))) {
+              if (validate.errors === null) validate.errors = []
+              validate.errors.push({ keywordLocation: "#/required", instanceLocation: "#/code" })
+              errorCount++
+            }
+            if (!(data.timestamp !== undefined && hasOwn(data, "timestamp"))) {
+              if (validate.errors === null) validate.errors = []
+              validate.errors.push({ keywordLocation: "#/required", instanceLocation: "#/timestamp" })
+              errorCount++
+            }
+            if (data.error !== undefined && hasOwn(data, "error")) {
+              if (!(typeof data.error === "string")) {
+                if (validate.errors === null) validate.errors = []
+                validate.errors.push({ keywordLocation: "#/properties/error/type", instanceLocation: "#/error" })
+                errorCount++
+              }
+            }
+            if (data.message !== undefined && hasOwn(data, "message")) {
+              if (!(typeof data.message === "string")) {
+                if (validate.errors === null) validate.errors = []
+                validate.errors.push({ keywordLocation: "#/properties/message/type", instanceLocation: "#/message" })
+                errorCount++
+              }
+            }
+            if (data.details !== undefined && hasOwn(data, "details")) {
+              if (!(typeof data.details === "object" && data.details && !Array.isArray(data.details))) {
+                if (validate.errors === null) validate.errors = []
+                validate.errors.push({ keywordLocation: "#/properties/details/type", instanceLocation: "#/details" })
+                errorCount++
+              }
+            }
+            if (data.code !== undefined && hasOwn(data, "code")) {
+              if (!(typeof data.code === "string")) {
+                if (validate.errors === null) validate.errors = []
+                validate.errors.push({ keywordLocation: "#/properties/code/type", instanceLocation: "#/code" })
+                errorCount++
+              }
+              else {
+                if (!(data.code === "VALIDATION_ERROR" || data.code === "BUSINESS_RULE_VIOLATION" || data.code === "AUTHENTICATION_ERROR" || data.code === "AUTHORIZATION_ERROR" || data.code === "RESOURCE_NOT_FOUND" || data.code === "CONFLICT" || data.code === "RATE_LIMIT_ERROR" || data.code === "SERVER_ERROR" || data.code === "SERVICE_UNAVAILABLE")) {
+                  if (validate.errors === null) validate.errors = []
+                  validate.errors.push({ keywordLocation: "#/properties/code/enum", instanceLocation: "#/code" })
+                  errorCount++
+                }
+              }
+            }
+            if (data.timestamp !== undefined && hasOwn(data, "timestamp")) {
+              if (!(typeof data.timestamp === "string")) {
+                if (validate.errors === null) validate.errors = []
+                validate.errors.push({ keywordLocation: "#/properties/timestamp/type", instanceLocation: "#/timestamp" })
+                errorCount++
+              }
+            }
+          }
+          return errorCount === 0
+        };
+        return ref0})();;
+      - function selectedResponseContract() {
+      - '  var status = String(pm.response.code);'
+      - '  if (contract.responses[status]) return { key: status, value: contract.responses[status] };'
+      - '  var range = String(Math.floor(pm.response.code / 100)) + ''XX'';'
+      - '  if (contract.responses[range]) return { key: range, value: contract.responses[range] };'
+      - '  if (contract.responses.default) return { key: ''default'', value: contract.responses.default };'
+      - '  return null;'
+      - '}'
+      - function responseText() { return pm.response.text() || ""; }
+      - function isBodyless() { return pm.response.code === 204 || pm.response.code === 205 || pm.response.code === 304 || contract.method === "HEAD"; }
+      - function mediaBase(value) { return String(value || "").toLowerCase().split(";")[0].trim(); }
+      - 'function mediaParts(value) { var base = mediaBase(value); var parts = base.split("/"); return { raw: base, type: parts[0] || "", subtype: parts[1] || "" }; }'
+      - function isJsonSubtype(subtype) { return subtype === "json" || /\+json$/.test(subtype); }
+      - function mediaScore(expected, actual) {
+      - '  var e = mediaParts(expected); var a = mediaParts(actual);'
+      - '  if (!e.raw || !a.raw) return 0;'
+      - '  if (e.raw === a.raw) return 4;'
+      - '  if (e.type === a.type && e.subtype === "json" && isJsonSubtype(a.subtype)) return 3;'
+      - '  if (e.type === a.type && e.subtype === "*+json" && /\+json$/.test(a.subtype)) return 3;'
+      - '  if (e.type === a.type && e.subtype === "*") return 2;'
+      - '  if (e.type === "*" && e.subtype === "*") return 1;'
+      - '  return 0;'
+      - '}'
+      - function selectMedia(responseContract) {
+      - '  var actual = pm.response.headers.get("Content-Type") || "";'
+      - '  var content = responseContract.content || {};'
+      - '  var matches = Object.keys(content).map(function (expected) { return { expected: expected, score: mediaScore(expected, actual), media: content[expected] }; }).filter(function (entry) { return entry.score > 0; }).sort(function (a, b) { return b.score - a.score; });'
+      - '  if (matches.length === 0) return { error: "Content-Type " + actual + " does not match OpenAPI content for " + contract.method + " " + contract.path + " status " + pm.response.code + "; expected " + Object.keys(content).join(", ") };'
+      - '  if (matches.length > 1 && matches[0].score === matches[1].score) return { error: "Content-Type " + actual + " ambiguously matches OpenAPI content for " + contract.method + " " + contract.path + " status " + pm.response.code + "; expected " + Object.keys(content).join(", ") };'
+      - '  return matches[0];'
+      - '}'
+      - var selected = selectedResponseContract();
+      - pm.test('OpenAPI operation mapping exists', function () { pm.expect(contract.path).to.be.a('string').and.not.empty; });
+      - pm.test('Status code is defined by OpenAPI', function () { pm.expect(selected, 'No OpenAPI response defined for ' + contract.method + ' ' + contract.path + ' status ' + pm.response.code).to.exist; });
+      - pm.test('Response headers match OpenAPI', function () {
+      - '  if (!selected) return;'
+      - '  var headers = selected.value.headers || [];'
+      - '  headers.forEach(function (header) {'
+      - '    var actual = pm.response.headers.get(header.name);'
+      - '    if (!actual && header.required) pm.expect.fail("OpenAPI response header missing for " + contract.method + " " + contract.path + ": " + header.name);'
+      - '    if (!actual) return;'
+      - '    if (header.unsupported) pm.expect.fail("OpenAPI response header unsupported for " + contract.method + " " + contract.path + ": " + header.unsupported);'
+      - '    var headerValidator = validators[selected.key] && validators[selected.key].__headers && validators[selected.key].__headers[String(header.name).toLowerCase()];'
+      - '    if (headerValidator && !headerValidator(actual)) pm.expect.fail("OpenAPI response header validation failed for " + header.name + ": " + JSON.stringify(headerValidator.errors || []));'
+      - '  });'
+      - '});'
+      - pm.test('Response body matches OpenAPI body contract', function () {
+      - '  if (!selected) return;'
+      - '  if (isBodyless()) { pm.expect(responseText().trim().length).to.equal(0); return; }'
+      - '  var content = selected.value.content || {};'
+      - '  if (Object.keys(content).length === 0) { pm.expect(responseText().trim().length, "OpenAPI response defines no body but response body was not empty").to.equal(0); }'
+      - '  else { pm.expect(responseText().trim().length, "OpenAPI response defines a body but response body was empty").to.be.above(0); }'
+      - '});'
+      - pm.test('Content-Type matches OpenAPI response content', function () {
+      - '  if (!selected || isBodyless()) return;'
+      - '  var content = selected.value.content || {};'
+      - '  if (Object.keys(content).length === 0) return;'
+      - '  var actual = pm.response.headers.get("Content-Type");'
+      - '  if (!actual) pm.expect.fail("Content-Type <missing> does not match OpenAPI content for " + contract.method + " " + contract.path + " status " + pm.response.code + "; expected " + Object.keys(content).join(", "));'
+      - '  var media = selectMedia(selected.value);'
+      - '  if (media.error) pm.expect.fail(media.error);'
+      - '});'
+      - pm.test('Response body matches OpenAPI schema', function () {
+      - '  if (!selected || isBodyless()) return;'
+      - '  var content = selected.value.content || {};'
+      - '  if (Object.keys(content).length === 0) return;'
+      - '  var media = selectMedia(selected.value);'
+      - '  if (media.error) return;'
+      - '  if (media.media.unsupported) pm.expect.fail("OpenAPI schema unsupported for " + contract.method + " " + contract.path + " status " + pm.response.code + ": " + media.media.unsupported);'
+      - '  if (!media.media.schema) { return; }'
+      - '  var validate = validators[selected.key] && validators[selected.key][media.expected];'
+      - '  if (!validate) pm.expect.fail("OpenAPI schema validator was not generated for " + media.expected);'
+      - '  var actual = mediaParts(pm.response.headers.get("Content-Type") || "");'
+      - '  var value = isJsonSubtype(actual.subtype) ? pm.response.json() : responseText();'
+      - '  if (!isJsonSubtype(actual.subtype) && media.media.schema && media.media.schema.type !== "string") pm.expect.fail("Non-JSON response schema validation unsupported for " + contract.method + " " + contract.path);'
+      - '  if (!validate(value)) pm.expect.fail("OpenAPI schema validation failed for " + contract.method + " " + contract.path + " status " + pm.response.code + ": " + JSON.stringify(validate.errors || []));'
+      - '});'
+    language: text/javascript
+examples:
+  - response:
+      statusCode: 201
+      statusText: Created
+      body:
+        type: json
+        content: |-
+          {
+            "refundId": "rfnd_abc123def456",
+            "transactionId": "txn_1234567890abcdef",
+            "status": "pending",
+            "amount": 5000,
+            "currency": "USD",
+            "refundAmount": 5000,
+            "refundCurrency": "USD",
+            "reason": "Customer requested refund",
+            "createdAt": "2024-01-15T10:30:00Z",
+            "updatedAt": "2024-01-15T10:30:00Z",
+            "estimatedCompletionTime": "2024-01-15T14:30:00Z",
+            "metadata": {
+              "initiatedBy": "admin@example.com",
+              "ticketNumber": "TKT-12345"
+            },
+            "links": {
+              "self": "/refunds/rfnd_abc123def456",
+              "status": "/refunds/rfnd_abc123def456/status",
+              "cancel": "/refunds/rfnd_abc123def456/cancel"
+            }
+          }
+      headers:
+        - key: Content-Type
+          value: application/json
+        - key: Location
+          value: /refunds/rfnd_abc123def456
+          description: URI of the created refund resource
+          disabled: false
+    name: Refund created successfully
+  - response:
+      statusCode: 400
+      statusText: Bad Request
+      body:
+        type: json
+        content: |-
+          {
+            "error": "INVALID_REFUND_AMOUNT",
+            "message": "Refund amount exceeds the original transaction amount",
+            "details": {
+              "transactionId": "txn_1234567890abcdef",
+              "originalAmount": 5000,
+              "requestedRefundAmount": 6000,
+              "currency": "USD"
+            },
+            "code": "VALIDATION_ERROR",
+            "timestamp": "2024-01-15T10:30:00Z"
+          }
+      headers:
+        - key: Content-Type
+          value: application/json
+    name: Bad request - Invalid input or business rule violation
+  - response:
+      statusCode: 401
+      statusText: Unauthorized
+      body:
+        type: json
+        content: |-
+          {
+            "error": "UNAUTHORIZED",
+            "message": "Authentication token is required",
+            "details": {
+              "requiredAuth": "Bearer token (OAuth 2.0 or JWT)"
+            },
+            "code": "AUTHENTICATION_ERROR",
+            "timestamp": "2024-01-15T10:30:00Z"
+          }
+      headers:
+        - key: Content-Type
+          value: application/json
+    name: Unauthorized - Invalid or missing authentication token
+  - response:
+      statusCode: 404
+      statusText: Not Found
+      body:
+        type: json
+        content: |-
+          {
+            "error": "TRANSACTION_NOT_FOUND",
+            "message": "The specified transaction was not found",
+            "details": {
+              "transactionId": "txn_invalid123",
+              "suggestion": "Verify the transaction ID and try again"
+            },
+            "code": "RESOURCE_NOT_FOUND",
+            "timestamp": "2024-01-15T10:30:00Z"
+          }
+      headers:
+        - key: Content-Type
+          value: application/json
+    name: Transaction not found
+  - response:
+      statusCode: 409
+      statusText: Conflict
+      body:
+        type: json
+        content: |-
+          {
+            "error": "DUPLICATE_REFUND",
+            "message": "A refund with the same parameters already exists for this transaction",
+            "details": {
+              "transactionId": "txn_1234567890abcdef",
+              "existingRefundId": "rfnd_existing123",
+              "conflictType": "duplicate_request"
+            },
+            "code": "CONFLICT",
+            "timestamp": "2024-01-15T10:30:00Z"
+          }
+      headers:
+        - key: Content-Type
+          value: application/json
+    name: Conflict - Refund already exists or transaction state conflict
+  - response:
+      statusCode: 422
+      statusText: Unprocessable Entity (WebDAV) (RFC 4918)
+      body:
+        type: json
+        content: |-
+          {
+            "error": "TRANSACTION_TOO_OLD",
+            "message": "Refunds cannot be issued more than 180 days after the original transaction",
+            "details": {
+              "transactionId": "txn_1234567890abcdef",
+              "transactionDate": "2023-06-01T00:00:00Z",
+              "daysSinceTransaction": 195,
+              "maxDaysAllowed": 180
+            },
+            "code": "BUSINESS_RULE_VIOLATION",
+            "timestamp": "2024-01-15T10:30:00Z"
+          }
+      headers:
+        - key: Content-Type
+          value: application/json
+    name: Unprocessable entity - Business validation failed
+  - response:
+      statusCode: 429
+      statusText: Too Many Requests
+      body:
+        type: json
+        content: |-
+          {
+            "error": "RATE_LIMIT_EXCEEDED",
+            "message": "Rate limit exceeded. Please retry after the specified time",
+            "details": {
+              "limit": 100,
+              "window": "1 minute",
+              "retryAfter": 45
+            },
+            "code": "RATE_LIMIT_ERROR",
+            "timestamp": "2024-01-15T10:30:00Z"
+          }
+      headers:
+        - key: Content-Type
+          value: application/json
+    name: Too many requests - Rate limit exceeded
+  - response:
+      statusCode: 500
+      statusText: Internal Server Error
+      body:
+        type: json
+        content: |-
+          {
+            "error": "INTERNAL_SERVER_ERROR",
+            "message": "An unexpected error occurred while processing the refund",
+            "details": {
+              "requestId": "req_abc123def456",
+              "suggestion": "Please retry the request. If the issue persists, contact support."
+            },
+            "code": "SERVER_ERROR",
+            "timestamp": "2024-01-15T10:30:00Z"
+          }
+      headers:
+        - key: Content-Type
+          value: application/json
+    name: Internal server error
+  - response:
+      statusCode: 503
+      statusText: Service Unavailable
+      body:
+        type: json
+        content: |-
+          {
+            "error": "MAINTENANCE_MODE",
+            "message": "The service is currently under maintenance",
+            "details": {
+              "maintenanceWindow": "2024-01-15T02:00:00Z - 2024-01-15T04:00:00Z",
+              "estimatedCompletion": "2024-01-15T04:00:00Z"
+            },
+            "code": "SERVICE_UNAVAILABLE",
+            "timestamp": "2024-01-15T10:30:00Z"
+          }
+      headers:
+        - key: Content-Type
+          value: application/json
+    name: Service unavailable - Maintenance or overload
