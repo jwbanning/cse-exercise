@@ -38,4 +38,4 @@ jobs:
           requester-email: ${{ inputs.requester_email }}
           postman-api-key: ${{ secrets.POSTMAN_API_KEY }}
           postman-access-token: ${{ secrets.POSTMAN_ACCESS_TOKEN }}
-          github-token: ${{ secrets.GITHUB_PAT }}  # Use PAT with workflows scope instead
+          github-token: ${{ secrets.GHUB_PAT }}  # Use PAT with workflows scope instead
