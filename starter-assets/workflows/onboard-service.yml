@@ -40,6 +40,7 @@ jobs:
           spec-path: ${{ inputs.spec_path }}
           domain: ${{ inputs.domain }}
           requester-email: ${{ inputs.requester_email }}
+          workspace-team-id: ${{ inputs.workspace-team-id }}
           postman-api-key: ${{ secrets.POSTMAN_API_KEY }}
           postman-access-token: ${{ secrets.POSTMAN_ACCESS_TOKEN }}
           github-token: ${{ github.token }}
