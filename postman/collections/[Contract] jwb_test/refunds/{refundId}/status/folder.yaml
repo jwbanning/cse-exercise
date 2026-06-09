@@ -1,4 +1,0 @@
-type: folder
-name: status
-items:
-  - ref: ./Get refund status.request.yaml
