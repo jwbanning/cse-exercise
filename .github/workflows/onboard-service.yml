@@ -20,7 +20,7 @@ on:
         required: false
       workspace-team-id:
         description: Workspace teamid
-        required: false  
+        required: true
 
 jobs:
   onboard:
