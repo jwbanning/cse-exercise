@@ -18,6 +18,9 @@ on:
       requester_email:
         description: Optional requester email for audit context
         required: false
+      workspace-team-id:
+        description: Workspace teamid
+        required: false  
 
 jobs:
   onboard:
